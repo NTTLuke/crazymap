@@ -18,3 +18,17 @@ npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs
 npm install @openzeppelin/contracts
 npm install --save-dev @defi-wonderland/smock
 npm i ngeohash
+
+
+
+Contract fake deployed to: 0xcC9f3104F5a26B2F087Ab30D6e27c205adD51950
+Contract deployed to: 0x2969A5326FcFA97704009234b44a7D7A29E83f99
+
+
+Issues 
+--------
+adding OnlyCrazyFuryMember modifier to all methods
+    running tests
+    redeploy contract on Goerli
+    update contract and abi on Web app
+    test WebApp
