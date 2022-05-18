@@ -21,9 +21,8 @@ npm i ngeohash
 
 
 
-Contract fake deployed to: 0xcC9f3104F5a26B2F087Ab30D6e27c205adD51950
-Contract deployed to: 0x2969A5326FcFA97704009234b44a7D7A29E83f99
-
+Contract fake deployed to: 0xe3a52bF19284dA7539b766157fFc7B5F995C54F0
+Contract deployed to: 0xDdCAA0d204F599C729F6B7c79996610794b17DA3
 
 Issues 
 --------

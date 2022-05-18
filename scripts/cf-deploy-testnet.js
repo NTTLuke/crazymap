@@ -2,7 +2,7 @@ const { ethers } = require("hardhat");
 
 const main = async () => {
 
-    //Deploy fake contract for testing
+    //Deploy fake contract for testing on testnet 
     const cfContractFactoryFake = await hre.ethers.getContractFactory('MyFakeCrazyFury');
     const cfContractFake = await cfContractFactoryFake.deploy();
     await cfContractFake.deployed();
