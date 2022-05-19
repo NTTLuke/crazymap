@@ -179,32 +179,9 @@ describe("CrazyFuryMaps Should", function () {
 
   });
 
-  it("Should add new CF location because you have Crazy Fury NFT - Location value check", async function () {
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    const size = await cfmaps.getSize();
-    const location = await cfmaps.get(size - 1);
-
-    expect(location.discordName).to.equal("CFDiscordName");
-    expect(location.geohash).to.equal("GeoHashValue");
-
-  });
-
-  it("Should retrieve CF location with address information - migration purpose", async function () {
+  it("Should add new CF location because you have Crazy Fury NFT - cfInfo value check", async function () {
 
     const [owner] = await ethers.getSigners();
-
     //Deploy fake contract for testing
     const myContractFactory = await smock.mock('MyFakeCrazyFury');
     const myFakeCrazyFury = await myContractFactory.deploy();
@@ -218,14 +195,37 @@ describe("CrazyFuryMaps Should", function () {
 
     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
     const size = await cfmaps.getSize();
-    const location = await cfmaps.getWithAddress(size - 1);
+    const cfInfo = await cfmaps.get(size - 1);
 
-    expect(location.discordName).to.equal("CFDiscordName");
-    expect(location.geohash).to.equal("GeoHashValue");
-    expect(location.cfMemberAdr).to.equal(owner.address);
+    expect(cfInfo.discordName).to.equal("CFDiscordName");
+    expect(cfInfo.geohash).to.equal("GeoHashValue");
+    expect(cfInfo.cfMemberAdr).to.equal(owner.address);
 
   });
+  
+  it("Should retrieve CFLocation by Address ", async function () {
 
+    const [owner] = await ethers.getSigners();
+    
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+    const cfInfo = await cfmaps.getByAddress(owner.address);
+
+    expect(cfInfo.discordName).to.equal("CFDiscordName");
+    expect(cfInfo.geohash).to.equal("GeoHashValue");
+    expect(cfInfo.cfMemberAdr).to.equal(owner.address);
+
+  });
   it("Should retrieve 10 CrazyFury location - Location value check", async function () {
 
     const signers = await ethers.getSigners();

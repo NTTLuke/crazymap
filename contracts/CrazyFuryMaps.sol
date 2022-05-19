@@ -19,11 +19,6 @@ contract CrazyFuryMaps is Ownable {
     struct CFLocationResult {
         string discordName;
         string geohash;
-    }
-
-    struct CFLocationResultWithAddrResult {
-        string discordName;
-        string geohash;
         address cfMemberAdr;
     }
 
@@ -52,6 +47,7 @@ contract CrazyFuryMaps is Ownable {
         cfContractAdr = _cfContractAdr;
     }
 
+
     function setLocationInternal(
         string memory discordName,
         string memory geoHash
@@ -71,7 +67,7 @@ contract CrazyFuryMaps is Ownable {
         emit LocationAdded(discordName, geoHash, msg.sender);
     }
 
-    //for insert and edit crazyfury position no payable
+    //for insert and edit crazyfury position
     function setLocation(string memory discordName, string memory geoHash)
         external
         OnlyCrazyFuryOwner
@@ -128,34 +124,6 @@ contract CrazyFuryMaps is Ownable {
         return cfAddresses.length;
     }
 
-    function getWithAddress(uint256 index)
-        external
-        view
-        OnlyCrazyFuryOwner
-        OnlyCrazyFuryMapsMember
-        OnlyCrazyFuryMapsMemberNinjaModeOff
-        returns (CFLocationResultWithAddrResult memory)
-    {
-        address cfAddress = cfAddresses[index];
-        CFLocation memory cfLocation = cfLocationsMap[cfAddress];
-        CFLocationResultWithAddrResult memory cfLocationResultWithAddrResult;
-
-        if (
-            cfLocation.isNinja ||
-            IERC721(cfContractAdr).balanceOf(cfAddress) == 0
-        ) {
-            return cfLocationResultWithAddrResult;
-        }
-
-        cfLocationResultWithAddrResult = CFLocationResultWithAddrResult(
-            cfLocation.discordName,
-            cfLocation.geohash,
-            cfAddress
-        );
-
-        return cfLocationResultWithAddrResult;
-    }
-
     function get(uint256 index)
         external
         view
@@ -177,7 +145,35 @@ contract CrazyFuryMaps is Ownable {
 
         cfLocationResult = CFLocationResult(
             cfLocation.discordName,
-            cfLocation.geohash
+            cfLocation.geohash,
+            cfAddress
+        );
+
+        return cfLocationResult;
+    }
+
+    function getByAddress(address cfAddress)
+        external
+        view
+        OnlyCrazyFuryOwner
+        OnlyCrazyFuryMapsMember
+        OnlyCrazyFuryMapsMemberNinjaModeOff
+        returns (CFLocationResult memory)
+    {
+        CFLocation memory cfLocation = cfLocationsMap[cfAddress];
+        CFLocationResult memory cfLocationResult;
+
+        if (
+            cfLocation.isNinja ||
+            IERC721(cfContractAdr).balanceOf(cfAddress) == 0
+        ) {
+            return cfLocationResult;
+        }
+
+        cfLocationResult = CFLocationResult(
+            cfLocation.discordName,
+            cfLocation.geohash,
+            cfAddress
         );
 
         return cfLocationResult;

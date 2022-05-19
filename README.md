@@ -19,9 +19,12 @@ npm install @openzeppelin/contracts
 npm install --save-dev @defi-wonderland/smock
 npm i ngeohash
 
+# Deploy on goerli testnet 
+npx hardhat run .\scripts\cf-deploy-testnet.js --network goerli
 
-Contract fake deployed to: 0x540d17E4d7D5Ea6A53E67Ee36Dada2498C104430
-Contract deployed to: 0x3144FC5e5ACC78009f1A5b947CCE73E5734E2cD0
+GOERLI
+Contract fake deployed to: 0x37839dE6489B979fBC80A97f4AC81e24c5606ce6
+Contract deployed to: 0x053596dF559ffA57747F1B4229F7EF0a6AFF2b6F
 
 
 TODO
