@@ -5,7 +5,84 @@ const { smodd, smock } = require("@defi-wonderland/smock");
 //https://npm.io/package/ngeohash
 const geohash = require('ngeohash');
 
-describe("CrazyFuryMaps", function () {
+
+describe("CrazyFuryMaps events", function () {
+  it("Should emit LocationAdded", async function () {
+
+    const[owner] = await ethers.getSigners();
+
+     //Deploy fake contract for testing
+     const myContractFactory = await smock.mock('MyFakeCrazyFury');
+     const myFakeCrazyFury = await myContractFactory.deploy();
+ 
+     const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+     const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+     await cfmaps.deployed();
+ 
+     //mock behaviour 
+     myFakeCrazyFury.balanceOf.returns(1);
+ 
+    //the the event emitted by the contract
+     await expect(cfmaps.setLocation("CFDiscordName", "GeoHashValue"))
+         .to.emit(cfmaps, "LocationAdded")
+         .withArgs("CFDiscordName", "GeoHashValue", owner.address)
+
+  });
+
+  it("Should emit NinjaOnSet", async function () {
+
+    const[owner] = await ethers.getSigners();
+
+     //Deploy fake contract for testing
+     const myContractFactory = await smock.mock('MyFakeCrazyFury');
+     const myFakeCrazyFury = await myContractFactory.deploy();
+ 
+     const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+     const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+     await cfmaps.deployed();
+ 
+     //mock behaviour 
+     myFakeCrazyFury.balanceOf.returns(1);
+    
+     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+
+    //the the event emitted by the contract
+     await expect(cfmaps.enableNinjaMode())
+         .to.emit(cfmaps, "NinjaOnSet")
+         .withArgs("CFDiscordName", "GeoHashValue", owner.address)
+
+  });
+
+  
+  it("Should emit NinjaOffSet", async function () {
+
+    const[owner] = await ethers.getSigners();
+
+     //Deploy fake contract for testing
+     const myContractFactory = await smock.mock('MyFakeCrazyFury');
+     const myFakeCrazyFury = await myContractFactory.deploy();
+ 
+     const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+     const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+     await cfmaps.deployed();
+ 
+     //mock behaviour 
+     myFakeCrazyFury.balanceOf.returns(1);
+    
+     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+
+    //the the event emitted by the contract
+     await expect(cfmaps.disableNinjaMode())
+         .to.emit(cfmaps, "NinjaOffSet")
+         .withArgs("CFDiscordName", "GeoHashValue", owner.address)
+
+  });
+});
+
+
+
+
+describe("CrazyFuryMaps Should", function () {
 
   it("Should add new CF location because you have Crazy Fury NFT - Buy me a coffee", async function () {
     //https://github.com/ethers-io/ethers.js/issues/1362 for signers balance 
@@ -44,14 +121,17 @@ describe("CrazyFuryMaps", function () {
     const myContractFactory = await smock.mock('MyFakeCrazyFury');
     const myFakeCrazyFury = await myContractFactory.deploy();
 
+    //
 
     const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
     const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
     await cfmaps.deployed();
 
+
     expect(await cfmaps.getCrazyFuryContractAddress()).to.equal(myFakeCrazyFury.address);
 
   });
+
 
   it("Should add new CF location because you have Crazy Fury NFT - GeoHash check", async function () {
 
@@ -67,7 +147,7 @@ describe("CrazyFuryMaps", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     let geohashValue = geohash.encode(37.83238649368286, 112.55838632583618);
-    console.log(geohashValue);
+    //console.log(geohashValue);
 
     await cfmaps.setLocation("CFDiscordName", geohashValue);
 
@@ -80,9 +160,6 @@ describe("CrazyFuryMaps", function () {
     expect(latlon.longitude).to.equal(112.55838632583618);
 
   });
-
-
-
 
   it("Should add new CF location because you have Crazy Fury NFT - Array index size check", async function () {
 
@@ -119,8 +196,33 @@ describe("CrazyFuryMaps", function () {
     const size = await cfmaps.getSize();
     const location = await cfmaps.get(size - 1);
 
-    expect(location.crazyFuryDiscordName).to.equal("CFDiscordName");
+    expect(location.discordName).to.equal("CFDiscordName");
     expect(location.geohash).to.equal("GeoHashValue");
+
+  });
+
+  it("Should retrieve CF location with address information - migration purpose", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+    const size = await cfmaps.getSize();
+    const location = await cfmaps.getWithAddress(size - 1);
+
+    expect(location.discordName).to.equal("CFDiscordName");
+    expect(location.geohash).to.equal("GeoHashValue");
+    expect(location.cfMemberAdr).to.equal(owner.address);
 
   });
 
@@ -157,7 +259,7 @@ describe("CrazyFuryMaps", function () {
       discordName = "DiscordName" + index;
       geohashValue = "GeoHashValue" + index;
 
-      expect(location.crazyFuryDiscordName).to.equal(discordName);
+      expect(location.discordName).to.equal(discordName);
       expect(location.geohash).to.equal(geohashValue);
 
     }
@@ -209,14 +311,14 @@ describe("CrazyFuryMaps", function () {
     const size = await cfmaps.getSize();
     const location = await cfmaps.get(size - 1);
 
-    expect(location.crazyFuryDiscordName).to.equal("CFDiscordName");
+    expect(location.discordName).to.equal("CFDiscordName");
     expect(location.geohash).to.equal("GeoHashValue");
   });
-  
+
 });
 
 
-describe("CrazyFuryMaps", function () {
+describe("CrazyFuryMaps Should NOT", function () {
   it("Should NOT add new CF location because you don't have Crazy Fury NFT", async function () {
 
     //Deploy fake contract for testing
@@ -234,7 +336,7 @@ describe("CrazyFuryMaps", function () {
 
   });
 
- 
+
   it("Should NOT add new CF location because DiscordName is empty", async function () {
 
     //Deploy fake contract for testing
@@ -272,20 +374,21 @@ describe("CrazyFuryMaps", function () {
     await cfmaps.connect(owner).setLocation("owner", "ownerlocation");
     await cfmaps.connect(usr1).setLocation("usr1", "usr1location");
 
-    //simulate user no longer owns CF NFT
+    //simulate usr1 no longer owns CF NFT
     myFakeCrazyFury.balanceOf.whenCalledWith(usr1.address).returns(0);
-    
+
     const size = await cfmaps.connect(owner).getSize();
     expect(size).to.equal(2);
 
-    //owner is present
+    //NOTE : we are using the owner address to call the function since the usr1 no longer owns the NFT
+    //owner location is returned
     let locationOwner = await cfmaps.connect(owner).get(0);
-    expect(locationOwner.crazyFuryDiscordName).to.equal("owner");
+    expect(locationOwner.discordName).to.equal("owner");
     expect(locationOwner.geohash).to.equal("ownerlocation");
 
-    //user is not returned
-    let locationUser  = await cfmaps.connect(owner).get(1);
-    expect(locationUser.crazyFuryDiscordName).to.equal("");
+    //user location is not returned
+    let locationUser = await cfmaps.connect(owner).get(1);
+    expect(locationUser.discordName).to.equal("");
     expect(locationUser.geohash).to.equal("");
 
   });

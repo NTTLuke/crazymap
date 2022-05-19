@@ -2,27 +2,26 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MyFakeCrazyFury is ERC721 {
 
-    address private userAddr;
+    //true if address owns this token 
+    mapping(address => bool) private owners;
 
     constructor() ERC721("MyFakeCrazyFury", "FKCF") {}
 
-    function setUserAddr (address _userAddr) external {
-        userAddr = _userAddr;
+    function setUserAddr(address _userAddr) external {
+        owners[_userAddr] = true;
     }
 
-    function balanceOf(address _owner) public override view returns (uint256) 
-    {
-        if(_owner == userAddr)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
+    function removeUserAddr(address _userAddr) external {
+        require(owners[_userAddr], "No User address found");
+
+        owners[_userAddr] = false;
+    }
+
+    function balanceOf(address _owner) public view override returns (uint256) {
+        if (owners[_owner]) return 1;
+        return 0;
     }
 }

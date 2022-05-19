@@ -20,14 +20,11 @@ npm install --save-dev @defi-wonderland/smock
 npm i ngeohash
 
 
+Contract fake deployed to: 0x540d17E4d7D5Ea6A53E67Ee36Dada2498C104430
+Contract deployed to: 0x3144FC5e5ACC78009f1A5b947CCE73E5734E2cD0
 
-Contract fake deployed to: 0xe3a52bF19284dA7539b766157fFc7B5F995C54F0
-Contract deployed to: 0xDdCAA0d204F599C729F6B7c79996610794b17DA3
 
-Issues 
---------
-adding OnlyCrazyFuryMember modifier to all methods
-    running tests
-    redeploy contract on Goerli
-    update contract and abi on Web app
-    test WebApp
+TODO
+ /deploy new contract goerlu for new fake
+ UI > update abi and addresses
+ UI > testing add and remove fake address
