@@ -1,33 +1,53 @@
-# Basic Sample Hardhat Project
+# CrazyFuryMaps Smart Contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+CF Maps is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
 
-Try running some of the following tasks:
+It can be adapted for other NFT smart contract with few changes.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+## User Stories 
+Every user story managed by the smart contract is covered by related tests. 
+
+See [cf_tests.js](/test/cf_tests.js)
+
+ 
+## Dependency libraries
+
+- defi-wonderland/smock for mocking and faking 
+- ngeohash for encode/decode lat and lon 
+- hardhat-gas-reporter to get gas metrics when running tests : 
+    - Under [hardhat.config.js](hardhat.config.js) remove the comment `//require("hardhat-gas-reporter"):`
+
+## Scripts
+
+[cf-deploy-localhost](cf-deploy-localhost.js) to deploy smart contract on localhost network using hardhat.
+The script also runs smart contract commands for saving location for testing purpose
+
+```
+npx hardhat run .\scripts\cf-deploy-localhost.js --network localhost
 ```
 
-npm install --save-dev @nomiclabs/hardhat-waffle ethereum-waffle chai @nomiclabs/hardhat-ethers ethers
-npm install @openzeppelin/contracts
-npm install --save-dev @defi-wonderland/smock
-npm i ngeohash
+[cf-deploy-testnet](cf-deploy-testnet.js) to deploy smart contract on Goerli testnet using hardhat
 
-# Deploy on goerli testnet 
+```
 npx hardhat run .\scripts\cf-deploy-testnet.js --network goerli
+```
 
-GOERLI
+[cf-deploy-mainnet](cf-deploy-mainnet.js) to deploy smart contract on ethereum mainnet with Alchemy
+
+```
+npx hardhat run .\scripts\cf-deploy-mainnet.js --network mainnet
+```
+
+## Caveats
+
+CrazyFuryMaps smart contract has a dependency with CrazyFury ERC721 smart contract for checking if user ows the NFT (balanceOf).
+
+For testing purpose a fake ERC721 called [MyFakeCrazyFury.sol](/contracts/MyFakeCrazyFury.sol) has been created in order to simulate the mainnet behaviour.
+
+
+## Goerli smart contract references
+```
 Contract fake deployed to: 0x37839dE6489B979fBC80A97f4AC81e24c5606ce6
+
 Contract deployed to: 0x053596dF559ffA57747F1B4229F7EF0a6AFF2b6F
-
-
-TODO
- /deploy new contract goerlu for new fake
- UI > update abi and addresses
- UI > testing add and remove fake address
+```
