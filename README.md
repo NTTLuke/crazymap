@@ -40,7 +40,7 @@ npx hardhat run .\scripts\cf-deploy-mainnet.js --network mainnet
 
 ## Caveats
 
-CrazyFuryMaps smart contract has a dependency with CrazyFury ERC721 smart contract for checking if user ows the NFT (balanceOf).
+CrazyFuryMaps smart contract has a dependency with CrazyFury ERC721 smart contract to check if the user ows the NFT (balanceOf).
 
 For testing purpose a fake ERC721 called [MyFakeCrazyFury.sol](/contracts/MyFakeCrazyFury.sol) has been created in order to simulate the mainnet behaviour.
 
