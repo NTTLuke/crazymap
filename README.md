@@ -4,18 +4,27 @@ CF Maps is a smart contract for storing geolocation data of CrazyFury NFT commun
 
 It can be adapted for other NFT smart contract with few changes.
 
-## User Stories 
-Every user story managed by the smart contract is covered by related tests. 
-
-See [cf_tests.js](/test/cf_tests.js)
-
- 
 ## Dependency libraries
 
 - defi-wonderland/smock for mocking and faking 
 - ngeohash for encode/decode lat and lon 
 - hardhat-gas-reporter to get gas metrics when running tests : 
     - Under [hardhat.config.js](hardhat.config.js) remove the comment `//require("hardhat-gas-reporter"):`
+
+
+## User Stories 
+Every user story managed by the smart contract is covered by related tests. 
+
+See [cf_tests.js](/test/cf_tests.js)
+
+run tests command
+
+```
+npx hardhat test --network hardhat .\test\cf_tests.js
+```
+
+> Caveat : Mock/Fake library runs on hardhat network only.
+
 
 ## Scripts
 
@@ -48,6 +57,13 @@ For testing purpose a fake ERC721 called [MyFakeCrazyFury.sol](/contracts/MyFake
 ## Goerli smart contract references
 ```
 Contract fake deployed to: 0x37839dE6489B979fBC80A97f4AC81e24c5606ce6
-
 Contract deployed to: 0x053596dF559ffA57747F1B4229F7EF0a6AFF2b6F
+
 ```
+ - deploy new SC
+ - update UI (ABI-Address)
+
+
+https://medium.com/robhitchens/solidity-crud-part-2-ed8d8b4f74ec
+https://betterprogramming.pub/learn-solidity-variables-part-3-3b02ca71cf06
+https://coinsbench.com/how-to-code-solidity-smart-contract-crud-functions-the-right-way-bf4c33975fe0
