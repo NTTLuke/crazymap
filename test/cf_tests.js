@@ -223,7 +223,30 @@ describe("CrazyFuryMaps Should", function () {
 
   });
 
+  it("Should remove my location if I'm the owner and I don't own CF NFT anymore ", async function () {
 
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+    
+    //no longer owner of CF NFT
+    myFakeCrazyFury.balanceOf.returns(0)
+    
+    //I can remove my location
+    await cfmaps.removeMyLocation();
+  
+  });
 
 
   it("Should retrieve 20 CrazyFury location - Location value check", async function () {
@@ -467,6 +490,34 @@ describe("CrazyFuryMaps Should NOT", function () {
     await cfmaps.connect(usr1).setLocation("Owner", "GeoHashValue");
 
     await expect(cfmaps.connect(usr1).removeLocationByAddress(owner.address)).to.be.revertedWith("Ownable: caller is not the owner");
+
+  });
+
+  it("Should NOT remove my location if I have alredy removed it ", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+    
+    //no longer owner of CF NFT
+    myFakeCrazyFury.balanceOf.returns(0)
+    
+    //I can remove my location
+    await cfmaps.removeMyLocation();
+  
+    //Not possible remove my location twice 
+    await expect(cfmaps.removeMyLocation()).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
 
   });
   
