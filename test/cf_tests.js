@@ -28,55 +28,6 @@ describe("CrazyFuryMaps events", function () {
       .withArgs("CFDiscordName", "GeoHashValue", owner.address)
 
   });
-
-  it("Should emit NinjaOnSet", async function () {
-
-    const [owner] = await ethers.getSigners();
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-
-    //the the event emitted by the contract
-    await expect(cfmaps.enableNinjaMode())
-      .to.emit(cfmaps, "NinjaOnSet")
-      .withArgs("CFDiscordName", "GeoHashValue", owner.address)
-
-  });
-
-
-  it("Should emit NinjaOffSet", async function () {
-
-    const [owner] = await ethers.getSigners();
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-
-    //the the event emitted by the contract
-    await expect(cfmaps.disableNinjaMode())
-      .to.emit(cfmaps, "NinjaOffSet")
-      .withArgs("CFDiscordName", "GeoHashValue", owner.address)
-
-  });
 });
 
 
@@ -151,7 +102,7 @@ describe("CrazyFuryMaps Should", function () {
 
   it("Should edit existing CF location - member exists check", async function () {
 
-    const[owner] = await ethers.getSigners();
+    const [owner] = await ethers.getSigners();
 
     //Deploy fake contract for testing
     const myContractFactory = await smock.mock('MyFakeCrazyFury');
@@ -224,9 +175,58 @@ describe("CrazyFuryMaps Should", function () {
 
   });
 
+  it("Should remove my location if I'm the owner", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+    await cfmaps.removeMyLocation();
+  
+    await expect(cfmaps.getByAddress(owner.address)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
+    await expect(cfmaps.get(0)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
+
+  });
+
+  it("Should remove a location if I'm the contract owner", async function () {
+
+    const [owner, usr1] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.connect(owner).setLocation("User1", "GeoHashValue");
+    await cfmaps.connect(usr1).setLocation("Owner", "GeoHashValue");
+
+    await cfmaps.connect(owner).removeLocationByAddress(usr1.address);
+  
+    await expect(cfmaps.getByAddress(usr1.address)).to.be.revertedWith("Crazy Fury Maps member doesn't exist");
+    await expect(cfmaps.get(1)).to.be.revertedWith("Crazy Fury Maps member doesn't exist");
+
+  });
 
 
-  it("Should retrieve 10 CrazyFury location - Location value check", async function () {
+
+
+  it("Should retrieve 20 CrazyFury location - Location value check", async function () {
 
     const signers = await ethers.getSigners();
 
@@ -243,7 +243,7 @@ describe("CrazyFuryMaps Should", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     //insert 10 locations with different wallet address
-    for (let index = 0; index < 10; index++) {
+    for (let index = 0; index < 20; index++) {
       let discordName = "DiscordName" + index;
       let geohashValue = "GeoHashValue" + index;
 
@@ -251,7 +251,7 @@ describe("CrazyFuryMaps Should", function () {
     }
 
     const size = await cfmaps.getSize();
-    expect(size).to.equal(10);
+    expect(size).to.equal(20);
 
     for (let index = 0; index < size; index++) {
 
@@ -263,59 +263,8 @@ describe("CrazyFuryMaps Should", function () {
       expect(location.geohash).to.equal(geohashValue);
 
     }
-
   });
-
-  it("Should activate ninja mode on", async function () {
-
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    await cfmaps.enableNinjaMode();
-
-    await expect(cfmaps.getSize()).to.be.revertedWith("Only Crazy Fury Maps member ninja mode off can perform this action");
-    await expect(cfmaps.get(1)).to.be.revertedWith("Only Crazy Fury Maps member ninja mode off can perform this action");
-
-  });
-
-
-  it("Should activate ninja mode off", async function () {
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    await cfmaps.enableNinjaMode();
-    await cfmaps.disableNinjaMode();
-
-    const size = await cfmaps.getSize();
-    const location = await cfmaps.get(size - 1);
-
-    expect(location.discordName).to.equal("CFDiscordName");
-    expect(location.geohash).to.equal("GeoHashValue");
-  });
-
 });
-
 
 describe("CrazyFuryMaps Should NOT", function () {
   it("Should NOT add new CF location because you don't have Crazy Fury NFT", async function () {
@@ -480,32 +429,10 @@ describe("CrazyFuryMaps Should NOT", function () {
 
   });
 
-  it("Should NOT retrieve Index since caller is ninja mode ON", async function () {
-
-
-    //Deploy fake contract for testing
-    const myContractFactory = await smock.mock('MyFakeCrazyFury');
-    const myFakeCrazyFury = await myContractFactory.deploy();
-
-    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
-    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
-    await cfmaps.deployed();
-
-
-    //mock behaviour 
-    myFakeCrazyFury.balanceOf.returns(1);
-
-    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    await cfmaps.enableNinjaMode();
-
-    await expect(cfmaps.getSize()).to.be.revertedWith("Only Crazy Fury Maps member ninja mode off can perform this action");
-
-  });
-
   it("Should NOT edit CF location since member doesn't exists ", async function () {
 
-    const[owner] = await ethers.getSigners();
-    
+    const [owner] = await ethers.getSigners();
+
     //Deploy fake contract for testing
     const myContractFactory = await smock.mock('MyFakeCrazyFury');
     const myFakeCrazyFury = await myContractFactory.deploy();
@@ -520,4 +447,27 @@ describe("CrazyFuryMaps Should NOT", function () {
     await expect(cfmaps.editLocation("CFDiscordNameEdited", "GeoHashValueEdited")).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
 
   });
+
+  it("Should NOT remove another user's location if I'm NOT the contract owner", async function () {
+
+    const [owner, usr1] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await cfmaps.connect(owner).setLocation("User1", "GeoHashValue");
+    await cfmaps.connect(usr1).setLocation("Owner", "GeoHashValue");
+
+    await expect(cfmaps.connect(usr1).removeLocationByAddress(owner.address)).to.be.revertedWith("Ownable: caller is not the owner");
+
+  });
+  
 });
