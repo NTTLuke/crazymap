@@ -13,12 +13,6 @@ contract CrazyFuryMaps is Ownable {
     struct CFLocation {
         string discordName;
         string geohash;
-        bool isNinja;
-    }
-
-    struct CFLocationResult {
-        string discordName;
-        string geohash;
         address cfMemberAdr;
     }
 
@@ -29,14 +23,10 @@ contract CrazyFuryMaps is Ownable {
         address cfMemberAdr
     );
 
-    //ninja mode on activated
-    event NinjaOnSet(string discordName, string geoHash, address cfMemberAdr);
-
-    //ninja mode off activated
-    event NinjaOffSet(string discordName, string geoHash, address cfMemberAdr);
-
     //mapping address with CrazyFuryPosition
     mapping(address => CFLocation) private cfLocationsMap;
+    
+    //indicates if address has added a location
     mapping(address => bool) private inserted;
 
     address[] private cfAddresses;
@@ -51,7 +41,7 @@ contract CrazyFuryMaps is Ownable {
         cfContractAdr = _cfContractAdr;
     }
 
-    function setLocationInternal(
+    function _setLocation(
         string memory discordName,
         string memory geoHash
     ) private {
@@ -59,7 +49,11 @@ contract CrazyFuryMaps is Ownable {
         require(bytes(geoHash).length != 0, "Location can not be empty");
 
         //set position
-        cfLocationsMap[msg.sender] = CFLocation(discordName, geoHash, false);
+        cfLocationsMap[msg.sender] = CFLocation(
+            discordName,
+            geoHash,
+            msg.sender
+        );
 
         if (!inserted[msg.sender]) {
             inserted[msg.sender] = true;
@@ -70,82 +64,41 @@ contract CrazyFuryMaps is Ownable {
         emit LocationAdded(discordName, geoHash, msg.sender);
     }
 
-    function getInternal(address cfAddress)
+    function _get(address cfAddress)
         private
         view
-        returns (CFLocationResult memory)
+        onlyCrazyFuryMapsMemberExists(cfAddress)
+        returns (CFLocation memory)
     {
         CFLocation memory cfLocation = cfLocationsMap[cfAddress];
-        CFLocationResult memory cfLocationResult;
-
-        if (
-            cfLocation.isNinja ||
-            IERC721(cfContractAdr).balanceOf(cfAddress) == 0
-        ) {
-            return cfLocationResult;
+        if (IERC721(cfContractAdr).balanceOf(cfAddress) == 0) 
+        {
+            cfLocation = CFLocation("", "", address(0));
         }
 
-        cfLocationResult = CFLocationResult(
-            cfLocation.discordName,
-            cfLocation.geohash,
-            cfAddress
-        );
-
-        return cfLocationResult;
+        return cfLocation;
     }
 
     function setLocation(string memory discordName, string memory geoHash)
         external
-        OnlyCrazyFuryOwnerCanInvoke
+        onlyCrazyFuryOwnerCanInvoke
     {
-        setLocationInternal(discordName, geoHash);
+        _setLocation(discordName, geoHash);
     }
 
     function editLocation(string memory discordName, string memory geoHash)
         external
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
+        onlyCrazyFuryOwnerCanInvoke
+        onlyCrazyFuryMapsMemberCanInvoke
     {
-        setLocationInternal(discordName, geoHash);
-    }
-
-    function enableNinjaMode()
-        external
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
-    {
-        CFLocation memory cfLocation = cfLocationsMap[msg.sender];
-
-        cfLocation.isNinja = true;
-        cfLocationsMap[msg.sender] = cfLocation;
-
-        //emit event
-        emit NinjaOnSet(cfLocation.discordName, cfLocation.geohash, msg.sender);
-    }
-
-    function disableNinjaMode()
-        external
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
-    {
-        CFLocation memory cfLocation = cfLocationsMap[msg.sender];
-        cfLocation.isNinja = false;
-        cfLocationsMap[msg.sender] = cfLocation;
-
-        //emit event
-        emit NinjaOffSet(
-            cfLocation.discordName,
-            cfLocation.geohash,
-            msg.sender
-        );
+        _setLocation(discordName, geoHash);
     }
 
     function getSize()
         external
         view
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
-        OnlyCrazyFuryMapsMemberNinjaModeOffCanInvoke
+        onlyCrazyFuryOwnerCanInvoke
+        onlyCrazyFuryMapsMemberCanInvoke
         returns (uint256)
     {
         return cfAddresses.length;
@@ -154,35 +107,46 @@ contract CrazyFuryMaps is Ownable {
     function get(uint256 index)
         external
         view
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
-        OnlyCrazyFuryMapsMemberNinjaModeOffCanInvoke
-        returns (CFLocationResult memory)
+        onlyCrazyFuryOwnerCanInvoke
+        onlyCrazyFuryMapsMemberCanInvoke
+        returns (CFLocation memory)
     {
         require(index < cfAddresses.length, "Index out of bounds");
 
         address cfAddress = cfAddresses[index];
-
-        return getInternal(cfAddress);
+        return _get(cfAddress);
     }
 
     function getByAddress(address cfAddress)
         external
         view
-        OnlyCrazyFuryOwnerCanInvoke
-        OnlyCrazyFuryMapsMemberCanInvoke
-        OnlyCrazyFuryMapsMemberNinjaModeOffCanInvoke
-        OnlyCrazyFuryMapsMemberExists(cfAddress)
-        returns (CFLocationResult memory)
+        onlyCrazyFuryOwnerCanInvoke
+        onlyCrazyFuryMapsMemberCanInvoke
+        returns (CFLocation memory)
     {
-        return getInternal(cfAddress);
+        return _get(cfAddress);
+    }
+
+    function removeMyLocation()
+        external
+        onlyCrazyFuryMapsMemberCanInvoke
+    {
+        inserted[msg.sender] = false;
+    }
+
+    function removeLocationByAddress(address cfAddress)
+        external 
+        onlyOwner 
+    {
+        require(cfAddress != address(0), "CrazyFury address can not be empty");
+        inserted[cfAddress] = false;
     }
 
     function getCrazyFuryContractAddress() external view returns (address) {
         return cfContractAdr;
     }
 
-    modifier OnlyCrazyFuryOwnerCanInvoke() {
+    modifier onlyCrazyFuryOwnerCanInvoke() {
         require(
             IERC721(cfContractAdr).balanceOf(msg.sender) > 0,
             "Hey Bro, only CrazyFury members can use this service. Buy CrazyFury NFT to get access."
@@ -190,7 +154,7 @@ contract CrazyFuryMaps is Ownable {
         _;
     }
 
-    modifier OnlyCrazyFuryMapsMemberCanInvoke() {
+    modifier onlyCrazyFuryMapsMemberCanInvoke() {
         require(
             inserted[msg.sender],
             "Only Crazy Fury Maps member can perform this action! Add your position first!"
@@ -198,15 +162,7 @@ contract CrazyFuryMaps is Ownable {
         _;
     }
 
-    modifier OnlyCrazyFuryMapsMemberNinjaModeOffCanInvoke() {
-        require(
-            !cfLocationsMap[msg.sender].isNinja,
-            "Only Crazy Fury Maps member ninja mode off can perform this action"
-        );
-        _;
-    }
-
-    modifier OnlyCrazyFuryMapsMemberExists(address cfAddress) {
+    modifier onlyCrazyFuryMapsMemberExists(address cfAddress) {
         require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
         _;
     }

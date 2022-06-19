@@ -56,8 +56,8 @@ For testing purpose a fake ERC721 called [MyFakeCrazyFury.sol](/contracts/MyFake
 
 ## Goerli smart contract references
 ```
-Contract fake deployed to: 0x37839dE6489B979fBC80A97f4AC81e24c5606ce6
-Contract deployed to: 0x053596dF559ffA57747F1B4229F7EF0a6AFF2b6F
+Contract fake deployed to: 0x78D7Da811207aF2c1B712261cB12DCD7d8d51350
+Contract deployed to: 0xFDec63a5339E0A9763D692c4EBF09B4Ce25dF441
 
 ```
  - deploy new SC
