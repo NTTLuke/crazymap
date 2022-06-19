@@ -129,16 +129,13 @@ contract CrazyFuryMaps is Ownable {
 
     function removeMyLocation()
         external
-        onlyCrazyFuryOwnerCanInvoke
         onlyCrazyFuryMapsMemberCanInvoke
     {
         inserted[msg.sender] = false;
     }
 
     function removeLocationByAddress(address cfAddress)
-        external
-        onlyCrazyFuryOwnerCanInvoke
-        onlyCrazyFuryMapsMemberCanInvoke
+        external 
         onlyOwner 
     {
         require(cfAddress != address(0), "CrazyFury address can not be empty");
