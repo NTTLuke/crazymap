@@ -358,10 +358,9 @@ describe("CrazyFuryMaps Should NOT", function () {
     expect(locationOwner.geohash).to.equal("ownerlocation");
 
     //user location is not returned
-    let locationUser = await cfmaps.connect(owner).get(1);
-    expect(locationUser.discordName).to.equal("");
-    expect(locationUser.geohash).to.equal("");
-
+    //revert 
+    await expect(cfmaps.connect(owner).get(1)).to.be.revertedWith("The member is no longer a crazy fury owner");
+  
   });
 
   it("Should NOT add new CF location because Location is empty", async function () {
@@ -444,9 +443,13 @@ describe("CrazyFuryMaps Should NOT", function () {
     //mock behaviour 
     myFakeCrazyFury.balanceOf.returns(1);
 
+    
     //insert owner
     await cfmaps.connect(owner).setLocation("owner", "ownerlocation");
-
+    let size = await cfmaps.connect(owner).getSize();
+    
+    expect(size,1);
+    
     //revert when asking for not existing index
     await expect(cfmaps.connect(owner).get(2)).to.be.revertedWith("Index out of bounds");
 

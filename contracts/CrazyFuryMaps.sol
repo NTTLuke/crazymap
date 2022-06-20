@@ -67,15 +67,9 @@ contract CrazyFuryMaps is Ownable {
     function _get(address cfAddress)
         private
         view
-        onlyCrazyFuryMapsMemberExists(cfAddress)
         returns (CFLocation memory)
     {
         CFLocation memory cfLocation = cfLocationsMap[cfAddress];
-        if (IERC721(cfContractAdr).balanceOf(cfAddress) == 0) 
-        {
-            cfLocation = CFLocation("", "", address(0));
-        }
-
         return cfLocation;
     }
 
@@ -84,6 +78,16 @@ contract CrazyFuryMaps is Ownable {
         onlyCrazyFuryOwnerCanInvoke
     {
         _setLocation(discordName, geoHash);
+    }
+
+    function _checkIfCrazyFuryRequiredMemberExists(address cfAddress) private view {
+        require(
+            IERC721(cfContractAdr).balanceOf(cfAddress) > 0,
+            "The member is no longer a crazy fury owner");
+    }
+    
+    function _checkIfCrazyFuryMapsRequiredMemberExists(address cfAddress) private view{
+        require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
     }
 
     function editLocation(string memory discordName, string memory geoHash)
@@ -112,8 +116,11 @@ contract CrazyFuryMaps is Ownable {
         returns (CFLocation memory)
     {
         require(index < cfAddresses.length, "Index out of bounds");
-
         address cfAddress = cfAddresses[index];
+
+        _checkIfCrazyFuryRequiredMemberExists(cfAddress);
+        _checkIfCrazyFuryMapsRequiredMemberExists(cfAddress);
+
         return _get(cfAddress);
     }
 
@@ -124,6 +131,9 @@ contract CrazyFuryMaps is Ownable {
         onlyCrazyFuryMapsMemberCanInvoke
         returns (CFLocation memory)
     {
+        _checkIfCrazyFuryRequiredMemberExists(cfAddress);
+        _checkIfCrazyFuryMapsRequiredMemberExists(cfAddress);
+
         return _get(cfAddress);
     }
 
@@ -141,6 +151,7 @@ contract CrazyFuryMaps is Ownable {
         require(cfAddress != address(0), "CrazyFury address can not be empty");
         inserted[cfAddress] = false;
     }
+    
 
     function getCrazyFuryContractAddress() external view returns (address) {
         return cfContractAdr;
@@ -153,6 +164,8 @@ contract CrazyFuryMaps is Ownable {
         );
         _;
     }
+    
+  
 
     modifier onlyCrazyFuryMapsMemberCanInvoke() {
         require(
@@ -162,8 +175,5 @@ contract CrazyFuryMaps is Ownable {
         _;
     }
 
-    modifier onlyCrazyFuryMapsMemberExists(address cfAddress) {
-        require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
-        _;
-    }
+    
 }
