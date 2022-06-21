@@ -191,16 +191,16 @@ describe("CrazyFuryMaps Should", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    await cfmaps.removeMyLocation();
-  
+    await cfmaps.removeMyLocation(0);
+
     await expect(cfmaps.getByAddress(owner.address)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
     await expect(cfmaps.get(0)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
 
   });
 
-  it("Should remove a location if I'm the contract owner", async function () {
+  it("Should remove few locations and clean storage data properly", async function () {
 
-    const [owner, usr1] = await ethers.getSigners();
+    const [owner, usr1, usr2, usr3] = await ethers.getSigners();
 
     //Deploy fake contract for testing
     const myContractFactory = await smock.mock('MyFakeCrazyFury');
@@ -213,14 +213,32 @@ describe("CrazyFuryMaps Should", function () {
     //mock behaviour 
     myFakeCrazyFury.balanceOf.returns(1);
 
-    await cfmaps.connect(owner).setLocation("User1", "GeoHashValue");
-    await cfmaps.connect(usr1).setLocation("Owner", "GeoHashValue");
+    await cfmaps.connect(owner).setLocation("Owner", "GeoHashValue");
+    await cfmaps.connect(usr1).setLocation("User1", "GeoHashValue");
+    await cfmaps.connect(usr2).setLocation("User2", "GeoHashValue");
+    await cfmaps.connect(usr3).setLocation("User3", "GeoHashValue");
 
-    await cfmaps.connect(owner).removeLocationByAddress(usr1.address);
-  
-    await expect(cfmaps.getByAddress(usr1.address)).to.be.revertedWith("Crazy Fury Maps member doesn't exist");
-    await expect(cfmaps.get(1)).to.be.revertedWith("Crazy Fury Maps member doesn't exist");
+    //get the size of the array 
+    let size = await cfmaps.connect(owner).getSize();
+    expect(size).to.equal(4);
 
+    //remove location for usr2 and usr3
+    await cfmaps.connect(usr2).removeMyLocation(2);
+    
+    //now usr3 has been placed at index 2
+    await cfmaps.connect(usr3).removeMyLocation(2);
+
+    size = await cfmaps.connect(owner).getSize();
+    expect(size).to.equal(2);
+
+    for (let index = 0; index < size; index++) {
+
+      let cfInfo = await cfmaps.connect(owner).get(index);
+
+      expect(cfInfo.cfMemberAdr).to.not.equal(usr2.address);
+      expect(cfInfo.cfMemberAdr).to.not.equal(usr3.address);
+
+    }
   });
 
   it("Should remove my location if I'm the owner and I don't own CF NFT anymore ", async function () {
@@ -239,13 +257,13 @@ describe("CrazyFuryMaps Should", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    
+
     //no longer owner of CF NFT
     myFakeCrazyFury.balanceOf.returns(0)
-    
+
     //I can remove my location
-    await cfmaps.removeMyLocation();
-  
+    await cfmaps.removeMyLocation(0);
+
   });
 
 
@@ -360,7 +378,7 @@ describe("CrazyFuryMaps Should NOT", function () {
     //user location is not returned
     //revert 
     await expect(cfmaps.connect(owner).get(1)).to.be.revertedWith("The member is no longer a crazy fury owner");
-  
+
   });
 
   it("Should NOT add new CF location because Location is empty", async function () {
@@ -443,13 +461,13 @@ describe("CrazyFuryMaps Should NOT", function () {
     //mock behaviour 
     myFakeCrazyFury.balanceOf.returns(1);
 
-    
+
     //insert owner
     await cfmaps.connect(owner).setLocation("owner", "ownerlocation");
     let size = await cfmaps.connect(owner).getSize();
-    
-    expect(size,1);
-    
+
+    expect(size, 1);
+
     //revert when asking for not existing index
     await expect(cfmaps.connect(owner).get(2)).to.be.revertedWith("Index out of bounds");
 
@@ -474,7 +492,7 @@ describe("CrazyFuryMaps Should NOT", function () {
 
   });
 
-  it("Should NOT remove another user's location if I'm NOT the contract owner", async function () {
+  it("Should NOT remove another user's location if I'm NOT the location owner", async function () {
 
     const [owner, usr1] = await ethers.getSigners();
 
@@ -492,7 +510,7 @@ describe("CrazyFuryMaps Should NOT", function () {
     await cfmaps.connect(owner).setLocation("User1", "GeoHashValue");
     await cfmaps.connect(usr1).setLocation("Owner", "GeoHashValue");
 
-    await expect(cfmaps.connect(usr1).removeLocationByAddress(owner.address)).to.be.revertedWith("Ownable: caller is not the owner");
+    await expect(cfmaps.connect(usr1).removeMyLocation(0)).to.be.revertedWith("You are not the owner of this location");
 
   });
 
@@ -512,16 +530,16 @@ describe("CrazyFuryMaps Should NOT", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
-    
+
     //no longer owner of CF NFT
     myFakeCrazyFury.balanceOf.returns(0)
-    
+
     //I can remove my location
-    await cfmaps.removeMyLocation();
-  
+    await cfmaps.removeMyLocation(0);
+
     //Not possible remove my location twice 
-    await expect(cfmaps.removeMyLocation()).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
+    await expect(cfmaps.removeMyLocation(0)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
 
   });
-  
+
 });
