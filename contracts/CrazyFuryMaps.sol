@@ -10,6 +10,8 @@ contract CrazyFuryMaps is Ownable {
     //CF Contract Address
     address private cfContractAdr;
 
+    bool public paused;
+
     struct CFLocation {
         string discordName;
         string geohash;
@@ -39,6 +41,7 @@ contract CrazyFuryMaps is Ownable {
 
         //for dependency injection testnet
         cfContractAdr = _cfContractAdr;
+        paused = false;
     }
 
     function _setLocation(string memory discordName, string memory geoHash)
@@ -46,6 +49,7 @@ contract CrazyFuryMaps is Ownable {
     {
         require(bytes(discordName).length != 0, "DiscordName can not be empty");
         require(bytes(geoHash).length != 0, "Location can not be empty");
+        require(!paused, "Contract Paused");
 
         //set position
         cfLocationsMap[msg.sender] = CFLocation(
@@ -92,12 +96,38 @@ contract CrazyFuryMaps is Ownable {
         require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
     }
 
+    function setPaused(bool _paused) external onlyOwner {
+        paused = _paused;
+    }
+
     function editLocation(string memory discordName, string memory geoHash)
         external
         onlyCrazyFuryOwnerCanInvoke
         onlyCrazyFuryMapsMemberCanInvoke
     {
         _setLocation(discordName, geoHash);
+    }
+
+    function removeMyLocation(uint256 index)
+        external
+        onlyCrazyFuryMapsMemberCanInvoke
+    {
+        require(!paused, "Contract Paused");
+        require(index < cfAddresses.length, "Index out of bounds");
+
+        address cfAddressOwner = cfAddresses[index];
+        require(
+            cfAddressOwner == msg.sender,
+            "You are not the owner of this location"
+        );
+
+        delete cfLocationsMap[msg.sender];
+        delete inserted[msg.sender];
+
+        //delete and fix the gap
+        delete cfAddresses[index];
+        cfAddresses[index] = cfAddresses[cfAddresses.length - 1];
+        cfAddresses.pop();
     }
 
     function getSize()
@@ -137,27 +167,6 @@ contract CrazyFuryMaps is Ownable {
         _checkIfCrazyFuryMapsRequiredMemberExists(cfAddress);
 
         return _get(cfAddress);
-    }
-
-    function removeMyLocation(uint256 index)
-        external
-        onlyCrazyFuryMapsMemberCanInvoke
-    {
-        require(index < cfAddresses.length, "Index out of bounds");
-
-        address cfAddressOwner = cfAddresses[index];
-        require(
-            cfAddressOwner == msg.sender,
-            "You are not the owner of this location"
-        );
-
-        delete cfLocationsMap[msg.sender];
-        delete inserted[msg.sender];
-        
-        //delete and fix the gap
-        delete cfAddresses[index];
-        cfAddresses[index] = cfAddresses[cfAddresses.length - 1];
-        cfAddresses.pop();
     }
 
     function getCrazyFuryContractAddress() external view returns (address) {

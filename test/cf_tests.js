@@ -175,6 +175,55 @@ describe("CrazyFuryMaps Should", function () {
 
   });
 
+  it("Should pause contract if owner", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //pause smart contract
+    await cfmaps.connect(owner).setPaused(true);
+
+    //Not possible remove my location twice 
+    await expect(cfmaps.setLocation("CFDiscordName", "GeoHashValue")).to.be.revertedWith("Contract Paused");
+
+  });
+
+  it("Should remove pause from contract if owner", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //pause smart contract
+    await cfmaps.connect(owner).setPaused(true);
+
+    //remove paused smart contract
+    await cfmaps.connect(owner).setPaused(false);
+
+    //set done w/o revert 
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+
+  });
+
   it("Should remove my location if I'm the owner", async function () {
 
     const [owner] = await ethers.getSigners();
@@ -224,7 +273,7 @@ describe("CrazyFuryMaps Should", function () {
 
     //remove location for usr2 and usr3
     await cfmaps.connect(usr2).removeMyLocation(2);
-    
+
     //now usr3 has been placed at index 2
     await cfmaps.connect(usr3).removeMyLocation(2);
 
@@ -539,6 +588,99 @@ describe("CrazyFuryMaps Should NOT", function () {
 
     //Not possible remove my location twice 
     await expect(cfmaps.removeMyLocation(0)).to.be.revertedWith("Only Crazy Fury Maps member can perform this action! Add your position first!");
+
+  });
+
+
+  it("Should NOT add my location if contract is paused", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //pause smart contract
+    await cfmaps.connect(owner).setPaused(true);
+
+    //Not possible remove my location twice 
+    await expect(cfmaps.setLocation("CFDiscordName", "GeoHashValue")).to.be.revertedWith("Contract Paused");
+
+  });
+
+  it("Should NOT edit my location if contract is paused", async function () {
+
+    const [owner] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //add my location 
+    await cfmaps.setLocation("CFDiscordName", "GeoHashValue");
+
+    //pause smart contract
+    await cfmaps.connect(owner).setPaused(true);
+
+    //Not possible remove my location twice 
+    await expect(cfmaps.editLocation("CFDiscordName", "GeoHashValue")).to.be.revertedWith("Contract Paused");
+
+  });
+
+  it("Should NOT pause contract if not owner", async function () {
+
+    const [owner, usr1] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //Not possible set pause since usr1 is not the owner
+    await expect(cfmaps.connect(usr1).setPaused(true)).to.be.revertedWith("Ownable: caller is not the owner");
+
+  });
+
+  it("Should NOT remove pause from contract if not owner", async function () {
+
+    const [owner, usr1] = await ethers.getSigners();
+
+    //Deploy fake contract for testing
+    const myContractFactory = await smock.mock('MyFakeCrazyFury');
+    const myFakeCrazyFury = await myContractFactory.deploy();
+
+    const CrazyFuryMaps = await smock.mock("CrazyFuryMaps");
+    const cfmaps = await CrazyFuryMaps.deploy(myFakeCrazyFury.address);
+    await cfmaps.deployed();
+
+    //mock behaviour 
+    myFakeCrazyFury.balanceOf.returns(1);
+    
+    //owner paused contract
+    await cfmaps.connect(owner).setPaused(true);
+
+    //Not possible remove pause since usr1 is not the owner
+    await expect(cfmaps.connect(usr1).setPaused(false)).to.be.revertedWith("Ownable: caller is not the owner");
 
   });
 
