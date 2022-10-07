@@ -6,7 +6,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract CrazyFuryMaps is Ownable {
+contract CrazyFuryMapsLegacy is Ownable {
     //CF Contract Address
     address private cfContractAdr;
 
@@ -32,7 +32,7 @@ contract CrazyFuryMaps is Ownable {
     mapping(address => bool) private inserted;
 
     address[] private cfAddresses;
-    
+
     constructor(address _cfContractAdr) {
         console.log(
             "loading CrazyfuryMaps smart contract with CrazyFury contract address :",
