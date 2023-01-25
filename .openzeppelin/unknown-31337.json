@@ -2,19 +2,49 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-    "txHash": "0x490eb25585e9138b8cdeed91200176c03813d28562c556e2ecd18aef6add73bc"
+    "txHash": "0x7b5acc72eca38a5679abfd176b5f8a7eafbe9b0bea84bc3cc7c94f58388a53a6"
   },
   "proxies": [
     {
+      "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "txHash": "0x8b661aa277e4e0e76f8c2139144e48008232e688eba8e551892241d86b662c4f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      "txHash": "0xd4c5f069e80c335368eea374d3fe00b423eed37f346096917110a072b95d996d",
+      "kind": "transparent"
+    },
+    {
       "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-      "txHash": "0x513a6cb2ec04a59c8fd76ca445f37d1af07e1b07c9a5fdb6114c0ea19ed12440",
+      "txHash": "0xec3cbdb7b98e5114168b02881a719b561076747ebf8e9452d99666bcd2132fae",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "txHash": "0x7e51030fe3c220fbf160de21fa950498cce587a506e6f0b327ab209b82ea2581",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      "txHash": "0x7559d1efd18d776cb14c46168194dccf71af3df68734583c76700d654c60a1e1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      "txHash": "0x233432c37f68aa766e5d0ed47553363a48f2201095ac5dc50a6b1212f3f3401d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      "txHash": "0x0c1bac1c49d30089a2144958484113e6c74c4b62353577b14a25a9c8e9e708bf",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "34e628bd8ce63838e4e9e62d74431966be717450196e89340da2f44f7d4bd067": {
+    "c664d96b29ae70f5360081c8023dc41d295342c008b815035e0afbdf235ecaa9": {
       "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "txHash": "0xd064e71f9149cdcae6f7f11c3cd1f6b1aa5dc5ee9babbf6110cece254bd193d9",
+      "txHash": "0x9d58b5798d403e794b07939da50315ec94b876a9a26844bfd5811823fb5a86ad",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -60,44 +90,52 @@
             "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
           },
           {
-            "label": "cfContractAdr",
+            "label": "_paused",
             "offset": 0,
             "slot": "101",
-            "type": "t_address",
-            "contract": "CrazyFuryMapV1",
-            "src": "contracts\\CrazyFuryMapV1.sol:13"
+            "type": "t_bool",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:29"
           },
           {
-            "label": "paused",
-            "offset": 20,
-            "slot": "101",
-            "type": "t_bool",
-            "contract": "CrazyFuryMapV1",
-            "src": "contracts\\CrazyFuryMapV1.sol:14"
+            "label": "__gap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "PausableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\security\\PausableUpgradeable.sol:116"
+          },
+          {
+            "label": "cfContractAdr",
+            "offset": 0,
+            "slot": "151",
+            "type": "t_address",
+            "contract": "CrazyMap",
+            "src": "contracts\\CrazyMap.sol:16"
           },
           {
             "label": "cfLocationsMap",
             "offset": 0,
-            "slot": "102",
-            "type": "t_mapping(t_address,t_struct(CFLocation)772_storage)",
-            "contract": "CrazyFuryMapV1",
-            "src": "contracts\\CrazyFuryMapV1.sol:30"
+            "slot": "152",
+            "type": "t_mapping(t_address,t_struct(CFLocation)900_storage)",
+            "contract": "CrazyMap",
+            "src": "contracts\\CrazyMap.sol:32"
           },
           {
             "label": "inserted",
             "offset": 0,
-            "slot": "103",
+            "slot": "153",
             "type": "t_mapping(t_address,t_bool)",
-            "contract": "CrazyFuryMapV1",
-            "src": "contracts\\CrazyFuryMapV1.sol:33"
+            "contract": "CrazyMap",
+            "src": "contracts\\CrazyMap.sol:35"
           },
           {
             "label": "cfAddresses",
             "offset": 0,
-            "slot": "104",
+            "slot": "154",
             "type": "t_array(t_address)dyn_storage",
-            "contract": "CrazyFuryMapV1",
-            "src": "contracts\\CrazyFuryMapV1.sol:35"
+            "contract": "CrazyMap",
+            "src": "contracts\\CrazyMap.sol:37"
           }
         ],
         "types": {
@@ -125,16 +163,16 @@
             "label": "mapping(address => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(CFLocation)772_storage)": {
-            "label": "mapping(address => struct CrazyFuryMapV1.CFLocation)",
+          "t_mapping(t_address,t_struct(CFLocation)900_storage)": {
+            "label": "mapping(address => struct CrazyMap.CFLocation)",
             "numberOfBytes": "32"
           },
           "t_string_storage": {
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(CFLocation)772_storage": {
-            "label": "struct CrazyFuryMapV1.CFLocation",
+          "t_struct(CFLocation)900_storage": {
+            "label": "struct CrazyMap.CFLocation",
             "members": [
               {
                 "label": "discordName",
