@@ -1,0 +1,172 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+    "txHash": "0x490eb25585e9138b8cdeed91200176c03813d28562c556e2ecd18aef6add73bc"
+  },
+  "proxies": [
+    {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x513a6cb2ec04a59c8fd76ca445f37d1af07e1b07c9a5fdb6114c0ea19ed12440",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "34e628bd8ce63838e4e9e62d74431966be717450196e89340da2f44f7d4bd067": {
+      "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "txHash": "0xd064e71f9149cdcae6f7f11c3cd1f6b1aa5dc5ee9babbf6110cece254bd193d9",
+      "layout": {
+        "solcVersion": "0.8.17",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "cfContractAdr",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_address",
+            "contract": "CrazyFuryMapV1",
+            "src": "contracts\\CrazyFuryMapV1.sol:13"
+          },
+          {
+            "label": "paused",
+            "offset": 20,
+            "slot": "101",
+            "type": "t_bool",
+            "contract": "CrazyFuryMapV1",
+            "src": "contracts\\CrazyFuryMapV1.sol:14"
+          },
+          {
+            "label": "cfLocationsMap",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_mapping(t_address,t_struct(CFLocation)772_storage)",
+            "contract": "CrazyFuryMapV1",
+            "src": "contracts\\CrazyFuryMapV1.sol:30"
+          },
+          {
+            "label": "inserted",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_address,t_bool)",
+            "contract": "CrazyFuryMapV1",
+            "src": "contracts\\CrazyFuryMapV1.sol:33"
+          },
+          {
+            "label": "cfAddresses",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "CrazyFuryMapV1",
+            "src": "contracts\\CrazyFuryMapV1.sol:35"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_bool)": {
+            "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(CFLocation)772_storage)": {
+            "label": "mapping(address => struct CrazyFuryMapV1.CFLocation)",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(CFLocation)772_storage": {
+            "label": "struct CrazyFuryMapV1.CFLocation",
+            "members": [
+              {
+                "label": "discordName",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "geohash",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "cfMemberAdr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}
