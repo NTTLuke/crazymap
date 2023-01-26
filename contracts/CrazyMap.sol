@@ -11,6 +11,8 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
     
     //CF Contract Address
     address private cfContractAdr;
+    //at least one coffee :)
+    uint cmFee;
 
     struct CFLocation {
         string discordName;
@@ -44,6 +46,7 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
 
         //crazy fury contract address
         cfContractAdr = _cfContractAdr;
+        cmFee = 0.001 ether;
         
     }
 
@@ -100,7 +103,7 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
         onlyCrazyFuryOwnerCanInvoke
     {
         //at least one coffee
-        require(msg.value > 0.001 ether , "Hey bro, at least one coffee please! :) ");
+        require(msg.value > cmFee , "Hey bro, at least one coffee is appreciated! :) ");
         
         _setLocation(discordName, geoHash);
         (bool sent, ) = payable(owner()).call{value : msg.value}("");

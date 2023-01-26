@@ -3,7 +3,8 @@ const { ethers, upgrades } = require("hardhat");
 const { smodd, smock } = require("@defi-wonderland/smock");
 const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
-
+//TODO : SET AND GET price of the service ;) in the Version2 so we can use that for testing upgrade
+//REDO the crazyFuryNFT method for testing on Goerli
 
 async function deployFixture() {
   const [owner, user1, usr2, usr3] = await ethers.getSigners();
@@ -556,6 +557,18 @@ describe("CrazyFuryMaps Should NOT", function () {
 
     //Not possible remove my location twice
     await expect(proxy.editLocation("CFDiscordName", "GeoHashValue")).to.be.revertedWith("Pausable: paused");
+
+  });
+
+  it("Should NOT set location if msg.value is lte 0.001", async function () {
+
+    const { myFakeCrazyFury, proxy, owner, user1 } = await deployFixture();
+
+    //mock behaviour
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await expect(proxy.setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("0.001") }))
+          .to.be.revertedWith("Hey bro, at least one coffee is appreciated! :) ");
 
   });
 
