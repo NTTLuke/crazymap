@@ -1,8 +1,4 @@
 // SPDX-License-Identifier: MIT
-
-
-//TODO : manage pause events from PausableUpgradeable
-
 pragma solidity ^0.8.17;
 
 import "hardhat/console.sol";
@@ -12,6 +8,7 @@ import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
 
 contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
+    
     //CF Contract Address
     address private cfContractAdr;
 
@@ -34,21 +31,18 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
     //indicates if address has added a location
     mapping(address => bool) private inserted;
 
+    //crazy map members addresses
     address[] private cfAddresses;
 
     function initialize(address _cfContractAdr) public initializer {
-        // console.log(
-        //     "loading CrazyfuryMaps smart contract with CrazyFury contract address :",
-        //     _cfContractAdr
-        // );
 
-        //init owner with
+        //init owner for OwnableUpgradeable
         __Ownable_init();
 
-        //pausable init to false
+        //pausable init to false for PausableUpgradeable
         __Pausable_init();
 
-        //for dependency injection testnet
+        //crazy fury contract address
         cfContractAdr = _cfContractAdr;
         
     }
@@ -113,20 +107,6 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
         require(sent);
     }
 
-    function Pause() external onlyOwner {
-        // paused = _paused;
-        
-        //TODO Check the emitted event
-        _pause();
-    }
-
-    function UnPause() external onlyOwner {
-        // paused = _paused;
-        
-        //TODO Check the emitted event
-        _unpause();
-    }
-
     function editLocation(string memory discordName, string memory geoHash)
         external
         whenNotPaused
@@ -158,6 +138,7 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
         cfAddresses[index] = cfAddresses[cfAddresses.length - 1];
         cfAddresses.pop();
     }
+    
 
     function getSize()
         external
@@ -176,8 +157,7 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
         onlyCrazyFuryMapsMemberCanInvoke
         returns (CFLocation memory)
     {
-        //TODO ??? NOT SURE !!!!
-        require(index < cfAddresses.length, "Index out of bounds");
+        require(index < cfAddresses.length && index >= 0 , "Index out of bounds");
         address cfAddress = cfAddresses[index];
 
         _checkIfCrazyFuryRequiredMemberExists(cfAddress);
@@ -199,12 +179,24 @@ contract CrazyMap is OwnableUpgradeable, PausableUpgradeable  {
         return _get(cfAddress);
     }
 
+
     function getCrazyFuryContractAddress() external view returns (address) {
         return cfContractAdr;
     }
 
-    //TODO : Implementing Set CrazyFuryContractAddress
 
+    function setCrazyFuryContractAddress(address _cfAddress) onlyOwner external {
+        require(_cfAddress != address(0), "Address cannot be empty") ;        
+        cfContractAdr  = _cfAddress; 
+    }
+
+    function Pause() external onlyOwner {     
+        _pause();
+    }
+
+    function UnPause() external onlyOwner {
+        _unpause();
+    }
 
     modifier onlyCrazyFuryOwnerCanInvoke() {
         require(
