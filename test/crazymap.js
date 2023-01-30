@@ -1,10 +1,12 @@
-const { expect, use } = require("chai");
+const { expect, use, assert } = require("chai");
 const { ethers, upgrades } = require("hardhat");
 const { smodd, smock } = require("@defi-wonderland/smock");
 const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
 //TODO : SET AND GET price of the service ;) in the Version2 so we can use that for testing upgrade
 //REDO the crazyFuryNFT method for testing on Goerli
+//TODO Separate testing files
+//TODO READ STORAGE in order to introduce the topic related sensitive data
 
 async function deployFixture() {
   const [owner, user1, usr2, usr3] = await ethers.getSigners();
@@ -17,13 +19,6 @@ async function deployFixture() {
   const proxy = await upgrades.deployProxy(CrazyFuryMaps, [myFakeCrazyFury.address]);
   await proxy.deployed();
 
-  const implementationAddress = await upgrades.erc1967.getImplementationAddress(
-    proxy.address
-  );
-
-  // console.log('Proxy contract address: ' + proxy.address);
-  // console.log('Implementation contract address: ' + implementationAddress);
-
   return { myFakeCrazyFury, proxy, owner, user1, usr2, usr3 };
 }
 
@@ -32,7 +27,40 @@ describe("CrazyMap Upgrade", function () {
 
   it("Should storage is preserved when crazy map is upgraded", async function () {
 
-      //simulate new cf release and checking storage
+    //simulate new cf release and checking storage
+
+    const { myFakeCrazyFury, proxy, owner, user1 } = await deployFixture();
+
+    let proxyAddress = proxy.address;    
+
+    //crazymapV1 implementation address
+    let implementationAddressV1 = await upgrades.erc1967.getImplementationAddress(
+      proxyAddress
+    );
+  
+    //mock NFT behaviour
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    await proxy.connect(user1).setLocation("CFDiscordNameUs1", "GeoHashValueUs1", { value: ethers.utils.parseEther("10.0") });
+    await proxy.connect(owner).setLocation("CFDiscordNameOwner", "GeoHashValueOwner", { value: ethers.utils.parseEther("1") });
+
+    let size = await proxy.getSize();
+    expect(size).to.equal(2);
+
+
+    //deploy new version 
+    const CrazyMapV2 = await ethers.getContractFactory('CrazyMapV2');
+    const upgraded = await upgrades.upgradeProxy(proxyAddress, CrazyMapV2);
+  
+    let implementationAddressV2 = await upgrades.erc1967.getImplementationAddress(
+      proxyAddress
+    );
+  
+    expect(implementationAddressV1).to.not.equal(implementationAddressV2);
+
+    //check storage
+    size = await proxy.getSize();
+    expect(size).to.equal(2);
 
   });
 
@@ -568,7 +596,7 @@ describe("CrazyFuryMaps Should NOT", function () {
     myFakeCrazyFury.balanceOf.returns(1);
 
     await expect(proxy.setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("0.001") }))
-          .to.be.revertedWith("Hey bro, at least one coffee is appreciated! :) ");
+      .to.be.revertedWith("Hey bro, at least one coffee is appreciated! :) ");
 
   });
 

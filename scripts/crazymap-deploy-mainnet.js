@@ -2,7 +2,7 @@ const { ethers } = require("hardhat");
 
 const main = async () => {
 
-
+    
     let CF_CONTRACT_ADDR = "0x04047358179df7FE24E578219336212346dF1C07";
     
     const cfContractFactory = await hre.ethers.getContractFactory('CrazyFuryMaps');
