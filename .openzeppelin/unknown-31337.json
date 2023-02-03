@@ -356,11 +356,6 @@
       "kind": "transparent"
     },
     {
-      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-      "txHash": "0x6fe032d133609fb18d8eda1bcb5ea561c6cc51ea24d432a3a43b18eab556c701",
-      "kind": "transparent"
-    },
-    {
       "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
       "txHash": "0x38e28b4e200508cc1fb70b11fc44732837178f5db89ec84fbe112a26aa6a2b6a",
       "kind": "transparent"
@@ -529,6 +524,11 @@
       "address": "0x3347B4d90ebe72BeFb30444C9966B2B990aE9FcB",
       "txHash": "0x0c194344c8d1117080d1bd270ca091cbd1f7b6652732ef65e298ff5719fa38ab",
       "kind": "transparent"
+    },
+    {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x6fe032d133609fb18d8eda1bcb5ea561c6cc51ea24d432a3a43b18eab556c701",
+      "kind": "transparent"
     }
   ],
   "impls": {
@@ -615,7 +615,7 @@
             "label": "cfLocationsMap",
             "offset": 0,
             "slot": "153",
-            "type": "t_mapping(t_address,t_struct(CFLocation)902_storage)",
+            "type": "t_mapping(t_address,t_struct(CFLocation)2726_storage)",
             "contract": "CrazyMap",
             "src": "contracts\\CrazyMap.sol:31"
           },
@@ -661,7 +661,7 @@
             "label": "mapping(address => bool)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(CFLocation)902_storage)": {
+          "t_mapping(t_address,t_struct(CFLocation)2726_storage)": {
             "label": "mapping(address => struct CrazyMap.CFLocation)",
             "numberOfBytes": "32"
           },
@@ -669,7 +669,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(CFLocation)902_storage": {
+          "t_struct(CFLocation)2726_storage": {
             "label": "struct CrazyMap.CFLocation",
             "members": [
               {

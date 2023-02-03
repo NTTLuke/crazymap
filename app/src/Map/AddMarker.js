@@ -18,7 +18,7 @@ function AddMarker(props) {
     shadowAnchor: [48, 48],
   });
 
-  useMapEvent("click", (e) => {
+  useMapEvent("dblclick", (e) => {
     if (!props.updatingLocation) {
       setMarker(e.latlng);
       let newMarkerLocations = {};

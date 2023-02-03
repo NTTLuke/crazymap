@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import "./App.scss";
-import abi from "../utils/CrazyFuryMaps.json";
-import abiFake from "../utils/MyFakeCrazyFury.json";
+import abi from "../utils/CrazyMap.json";
+import abiFake from "../utils/MyFakeCrazyFuryNFT.json";
 import Geohash from "latlon-geohash";
 import MapView from "../Map/Map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,10 +21,10 @@ export default function App() {
   const [noNFTError, setNoNFTError] = useState("");
   const [noLocationError, setNoLocationError] = useState("");
   const [updatingLocation, setUpdatingLocation] = useState(false);
-  const contractAddress = "0xFDec63a5339E0A9763D692c4EBF09B4Ce25dF441";
+  const contractAddress = "0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758";
   const contractABI = abi.abi;
 
-  const cfFakeAddress = "0x78D7Da811207aF2c1B712261cB12DCD7d8d51350";
+  const cfFakeAddress = "0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4";
   const cfFakeABI = abiFake.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -76,7 +76,8 @@ export default function App() {
 
         const waveTxn = await crazyFuryMaps.setLocation(
           discordName,
-          Geohash.encode(marker.lat, marker.lng)
+          Geohash.encode(marker.lat, marker.lng),
+          { value: ethers.utils.parseEther("0.0011") }
         );
         setUpdatingLocation(true);
         await waveTxn.wait();
@@ -196,12 +197,23 @@ export default function App() {
           signer
         );
         console.log("account", account);
+        
+        //luke new method for mint FakeC
+        // console.log("contractFakeAddr", cfFakeAddress);
+        // let totalSupply = await crazyFuryContractFake.totalSupply();
+        // console.log(totalSupply);
+        // let tokenId = parseInt(totalSupply) + 1;
 
-        const waveTxn = await crazyFuryContractFake.setUserAddr(account, {
-          gasLimit: 300000,
-        });
-        await waveTxn.wait();
-        console.log("Added address for simulating CF ownership ", account);
+        // const waveTxn = await crazyFuryContractFake.mint(account.address , tokenId);
+        // await waveTxn.wait(); 
+
+        //old code 
+        // const waveTxn = await crazyFuryContractFake.setUserAddr(account, {
+        //   gasLimit: 300000,
+        // });
+
+
+        // console.log("Added address for simulating CF ownership ", account);
       } else {
         console.log("Ethereum object doesn't exist!");
       }

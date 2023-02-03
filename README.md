@@ -67,3 +67,9 @@ Contract deployed to: 0xFDec63a5339E0A9763D692c4EBF09B4Ce25dF441
 https://medium.com/robhitchens/solidity-crud-part-2-ed8d8b4f74ec
 https://betterprogramming.pub/learn-solidity-variables-part-3-3b02ca71cf06
 https://coinsbench.com/how-to-code-solidity-smart-contract-crud-functions-the-right-way-bf4c33975fe0
+
+
+
+
+ - start : npx hardhat node
+ - 
