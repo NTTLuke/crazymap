@@ -137,6 +137,24 @@ describe("CrazyMap Should", function () {
 
   });
 
+  it("Should user has to pay at least 0.0011 when setLocation", async function () {
+
+    const { myFakeCrazyFury, proxy, owner, user1 } = await deployFixture();
+
+    //mock NFT behaviour
+    myFakeCrazyFury.balanceOf.returns(1);
+
+    //owner balance before setLocation
+    let balance = await ethers.provider.getBalance(owner.address);
+
+    //user1 setLocation
+    await proxy.connect(user1).setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("0.0011") });
+
+    //balance increased for owner 
+    expect(await ethers.provider.getBalance(owner.address)).to.be.above(balance);
+
+  });
+
   it("Should add new CF location because you have Crazy Fury NFT - GeoHash check", async function () {
 
     const { myFakeCrazyFury, proxy } = await deployFixture();

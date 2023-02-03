@@ -17,6 +17,7 @@ async function main() {
   console.log("NFT Transferred");
 
   //set location for user1 
+  const proxy = await ethers.getContractAt("CrazyMap", PROXY_ADDR);
   await proxy.connect(user1).setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("1.0") });
   console.log("set location by user1");
 
