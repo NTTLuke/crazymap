@@ -7,8 +7,11 @@ import Geohash from "latlon-geohash";
 import MapView from "../Map/Map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
-import LogoTitle from "../assets/Crazy Fury maplogo.svg";
-import LogoMap from "../assets/image 1logo.svg";
+import LogoTitle from "../assets/CM Logo.jpg";
+//import LogoMap from "../assets/image 1logo.svg";
+
+
+
 export default function App() {
   /*
    * Just a state variable we use to store our user's public wallet.
@@ -174,7 +177,8 @@ export default function App() {
         setNoNFTError(error.reason);
       }
       if (error2 === error.reason) {
-        setNoLocationError(error.reason);
+        var errorMessage = "Only Crazy Maps member can see others on the map. Add your position first!"
+        setNoLocationError(errorMessage);
       }
     }
   };
@@ -261,11 +265,11 @@ export default function App() {
   return (
     <div>
       <div className="navbar">
-        <img src={LogoMap} alt="logoMap" className="logoMap" />
+        {/* <img src={LogoMap} alt="logoMap" className="logoMap" /> */}
         <img src={LogoTitle} alt="logoTitle" className="logoTitle" />
         <span
           className="questionMark"
-          title="Click on map to set or update your position"
+          title="Double Click on map to set or update your position"
         >
           &#63;
         </span>
@@ -280,7 +284,9 @@ export default function App() {
       {noNFTError && (
         <div className="error1">
           <FontAwesomeIcon icon={faWarning} />
-          &nbsp;{noNFTError}
+          &nbsp;{noNFTError} 
+          <br/>
+          <a target="_blank" href="https://opensea.io/collection/montylab">Here</a>
         </div>
       )}
 

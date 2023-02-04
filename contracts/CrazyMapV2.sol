@@ -6,13 +6,11 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
-
-contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
-    
+contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
     //CF Contract Address
     address private cfContractAdr;
     //at least one coffee :)
-    uint cmFee;
+    uint256 public minCrazyMapFee;
 
     struct CFLocation {
         string discordName;
@@ -37,7 +35,6 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
     address[] private cfAddresses;
 
     function initialize(address _cfContractAdr) public initializer {
-
         //init owner for OwnableUpgradeable
         __Ownable_init();
 
@@ -46,13 +43,12 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
 
         //crazy fury contract address
         cfContractAdr = _cfContractAdr;
-        cmFee = 0.001 ether;
-        
+        minCrazyMapFee = 0.0012 ether;
     }
 
     function _setLocation(string memory discordName, string memory geoHash)
-        whenNotPaused
         private
+        whenNotPaused
     {
         require(bytes(discordName).length != 0, "DiscordName can not be empty");
         require(bytes(geoHash).length != 0, "Location can not be empty");
@@ -95,18 +91,20 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
         require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
     }
 
-
     function setLocation(string memory discordName, string memory geoHash)
-        payable
         external
+        payable
         whenNotPaused
         onlyCrazyFuryOwnerCanInvoke
     {
         //at least one coffee
-        require(msg.value > cmFee , "Hey bro, at least one coffee is appreciated! :) ");
-        
+        require(
+            msg.value >= minCrazyMapFee,
+            "Hey bro, at least one coffee is appreciated! :) "
+        );
+
         _setLocation(discordName, geoHash);
-        (bool sent, ) = payable(owner()).call{value : msg.value}("");
+        (bool sent, ) = payable(owner()).call{value: msg.value}("");
         require(sent);
     }
 
@@ -141,7 +139,6 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
         cfAddresses[index] = cfAddresses[cfAddresses.length - 1];
         cfAddresses.pop();
     }
-    
 
     function getSize()
         external
@@ -160,7 +157,10 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
         onlyCrazyFuryMapsMemberCanInvoke
         returns (CFLocation memory)
     {
-        require(index < cfAddresses.length && index >= 0 , "Index out of bounds");
+        require(
+            index < cfAddresses.length && index >= 0,
+            "Index out of bounds"
+        );
         address cfAddress = cfAddresses[index];
 
         _checkIfCrazyFuryRequiredMemberExists(cfAddress);
@@ -182,18 +182,19 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
         return _get(cfAddress);
     }
 
-
     function getCrazyFuryContractAddress() external view returns (address) {
         return cfContractAdr;
     }
 
-
-    function setCrazyFuryContractAddress(address _cfAddress) onlyOwner external {
-        require(_cfAddress != address(0), "Address cannot be empty") ;        
-        cfContractAdr  = _cfAddress; 
+    function setCrazyFuryContractAddress(address _cfAddress)
+        external
+        onlyOwner
+    {
+        require(_cfAddress != address(0), "Address cannot be empty");
+        cfContractAdr = _cfAddress;
     }
 
-    function Pause() external onlyOwner {     
+    function Pause() external onlyOwner {
         _pause();
     }
 
@@ -217,8 +218,7 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable  {
         _;
     }
 
-    function callV2() public pure returns(int) {
+    function callV2() public pure returns (int256) {
         return 1;
     }
-
 }

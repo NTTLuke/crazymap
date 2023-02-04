@@ -31,13 +31,13 @@ describe("CrazyMap Upgrade", function () {
 
     const { myFakeCrazyFury, proxy, owner, user1 } = await deployFixture();
 
-    let proxyAddress = proxy.address;    
+    let proxyAddress = proxy.address;
 
     //crazymapV1 implementation address
     let implementationAddressV1 = await upgrades.erc1967.getImplementationAddress(
       proxyAddress
     );
-  
+
     //mock NFT behaviour
     myFakeCrazyFury.balanceOf.returns(1);
 
@@ -51,11 +51,11 @@ describe("CrazyMap Upgrade", function () {
     //deploy new version 
     const CrazyMapV2 = await ethers.getContractFactory('CrazyMapV2');
     const upgraded = await upgrades.upgradeProxy(proxyAddress, CrazyMapV2);
-  
+
     let implementationAddressV2 = await upgrades.erc1967.getImplementationAddress(
       proxyAddress
     );
-  
+
     expect(implementationAddressV1).to.not.equal(implementationAddressV2);
 
     //check storage
@@ -137,7 +137,7 @@ describe("CrazyMap Should", function () {
 
   });
 
-  it("Should user has to pay at least 0.0011 when setLocation", async function () {
+  it("Should user has to pay at least 0.0012 when setLocation", async function () {
 
     const { myFakeCrazyFury, proxy, owner, user1 } = await deployFixture();
 
@@ -148,10 +148,20 @@ describe("CrazyMap Should", function () {
     let balance = await ethers.provider.getBalance(owner.address);
 
     //user1 setLocation
-    await proxy.connect(user1).setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("0.0011") });
+    await proxy.connect(user1).setLocation("CFDiscordName", "GeoHashValue", { value: ethers.utils.parseEther("0.0012") });
 
     //balance increased for owner 
     expect(await ethers.provider.getBalance(owner.address)).to.be.above(balance);
+
+  });
+
+  it("Should get minCrazyMapFee with value 0.0012 ether", async function () {
+
+    const { proxy } = await deployFixture();
+    let minCrazyMapFee = await proxy.minCrazyMapFee();
+    let etherMinFee = ethers.utils.formatEther(parseInt(minCrazyMapFee));
+
+    expect(parseFloat(etherMinFee)).to.equal(0.0012);
 
   });
 

@@ -12,14 +12,16 @@ const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
 async function main() {
   
-  //TODO USE GOERLI ADDRESSES
+  //GOERLI ADDRESSES
   const CF_FAKE_ADDR = "0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4";
   
   //----------------------------------
   //REPLACE THIS BEFORE RUN
   //----------------------------------
-  const myAddress = "0xD1082e298b68347b623f9B0662cAe6cA1064d6A5";
+  const myAddress = "0xfd0596122b8f5D1be1BB0d061C41A677366CF4f0";
 
+
+  //----------------------------------
   const crazyFury = await ethers.getContractAt("MyFakeCrazyFuryNFT", CF_FAKE_ADDR);
   let totalSupply = await crazyFury.totalSupply();
   console.log("TotalSupply: ", totalSupply);
