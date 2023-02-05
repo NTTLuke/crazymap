@@ -62,7 +62,7 @@ Let's add your location to see others members:
 - click Save.
 
 ### **Update your home base**
-Let's say you are a digital nomad and you change frequently your home base.
+Let's say you are a digital nomad and you change your home base frequently.
 
 - double click on map where you are located now :)
 - click Update.
