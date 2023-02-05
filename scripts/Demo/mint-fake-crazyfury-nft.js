@@ -18,7 +18,7 @@ async function main() {
   //----------------------------------
   //REPLACE THIS BEFORE RUN
   //----------------------------------
-  const myAddress = "0xfd0596122b8f5D1be1BB0d061C41A677366CF4f0";
+  const myAddress = "SET YOUR ADDRESS BEFORE RUN";
 
 
   //----------------------------------
