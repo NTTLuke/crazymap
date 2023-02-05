@@ -1,3 +1,5 @@
+
+![alt text](./app/DRAFT/Logo.jpg)
 # Crazy Map Smart Contract
 
 Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
