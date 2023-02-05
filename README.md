@@ -23,14 +23,21 @@ npx hardhat test .\test\crazymap.js
 > **Caveat** : Mock/Fake library used works on hardhat network only.
 
 
-## Run the webapp locally 
+## Run the webapp locally
 
 ```
 cd app 
-node start
+npm restore
+npm start
 ```
 
-In order to simulate, under Goerli, the behaviour of **REAL Crazy Fury NFT**, you have to "simulate" its ownership.
+### **First Use**
+
+On first use, UI will show you this message 
+
+> Hey Bro, only CrazyFury members can use this service. Buy CrazyFury NFT to get access.
+
+The reason is that Goerli doesn't have a  **REAL Crazy Fury Smart Contract** deployed, so we have to simulate the NFT ownership.
 
 For doing that : 
 - Open the script 
@@ -45,9 +52,25 @@ For doing that :
 
     ```npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js  --network goerli ```
 
+### **Add your home base**
+A **Crazy Map member** is someone who have added his location and only **Crazy Map members** can see others members' locations on the map.
+
+Let's add your location to see others members:
+
+- double click on map where you are located now :)
+- set your discord name.
+- click Save.
+
+### **Update your home base**
+Let's say you are a digital nomad and you change frequently your home base.
+
+- double click on map where you are located now :)
+- click Update.
+
+
 ## Caveats
 
-Crazy Map smart contract has a dependency with CrazyFury ERC721 smart contract to check if the user ows the NFT (balanceOf).
+Crazy Map smart contract has a dependency with Crazy Fury ERC721 smart contract, to check if the user ows the NFT (balanceOf).
 
 For testing purpose a fake ERC721 called [MyFakeCrazyFuryNFT.sol](/contracts/MyFakeCrazyFuryNFT.sol) has been created in order to simulate the mainnet behaviour.
 
