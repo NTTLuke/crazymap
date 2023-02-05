@@ -1,6 +1,6 @@
 # Crazy Map Smart Contract
 
-Crazy Maps is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
+Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
 
 ## Dependency libraries
 
@@ -52,10 +52,10 @@ For testing purpose a fake ERC721 called [MyFakeCrazyFuryNFT.sol](/contracts/MyF
 ## Goerli smart contract references
 
 ```
-Contract fake: 
+Crazy Fury fake contract: 
 0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4
 
-Contract Proxy:
+Crazy Map proxy contract:
 0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758
 ```
 
