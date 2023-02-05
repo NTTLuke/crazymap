@@ -11,7 +11,7 @@ Crazy Maps is a smart contract for storing geolocation data of CrazyFury NFT com
 
 
 ## User Stories 
-Every user story managed by the smart contract is covered by related tests. See [crazymap.js](/test/cf_tests.js)
+Every user story managed by the smart contract is covered by related tests. See [crazymap.js](/test/crazymap.js)
 
 For running tests, use this command:
 ```
@@ -28,7 +28,7 @@ cd app
 node start
 ```
 
-In order to simulate the behaviour of **REAL Crazy Fury NFT**,  you have to "simulate" its ownership.
+In order to simulate, under Goerli, the behaviour of **REAL Crazy Fury NFT**, you have to "simulate" its ownership.
 
 For doing that : 
 - Open the script 
