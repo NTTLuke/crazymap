@@ -172,7 +172,7 @@ export default function App() {
       const error1 =
         "Hey Bro, only CrazyFury members can use this service. Buy CrazyFury NFT to get access.";
       const error2 =
-        "Only Crazy Maps member can perform this action! Add your position first!";
+        "Only Crazy Fury Maps member can perform this action! Add your position first!";
       if (error1 === error.reason) {
         setNoNFTError(error.reason);
       }
