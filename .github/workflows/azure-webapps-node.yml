@@ -19,7 +19,7 @@
 
 on:
   push:
-    branches: [ "storage-pattern" ]
+    branches: [ "master" ]
   workflow_dispatch:
 
 env:
