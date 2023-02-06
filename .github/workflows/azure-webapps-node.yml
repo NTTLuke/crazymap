@@ -30,6 +30,10 @@ env:
 permissions:
   contents: read
 
+defaults:
+ run:
+  working-directory: ./app
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -43,7 +47,6 @@ jobs:
         cache: 'npm'
 
     - name: npm install, build, and test
-      working-directory: ../app
       run: |
         npm install
         npm run build --if-present
