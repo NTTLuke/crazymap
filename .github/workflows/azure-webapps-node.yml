@@ -33,10 +33,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./app
     
     defaults:
       run:
-        working-directory: ./app
+        working-directory:  ${{ env.working-directory }}
         
     steps:
     - uses: actions/checkout@v3
