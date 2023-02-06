@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: node-app
-        path: build
+        path: app/build
 
   deploy:
     permissions:
