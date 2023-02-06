@@ -32,7 +32,7 @@ permissions:
 
 defaults:
  run:
-  working-directory: ./app
+  working-directory: app
   
 jobs:
   build:
@@ -46,11 +46,11 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: npm install, build, and test
+    - name: npm install, build
       run: |
         npm install
         npm run build --if-present
-
+      
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
