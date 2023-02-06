@@ -24,7 +24,7 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: crazymapwebui    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: './app'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '14.x'                # set this to the node version to use
 
 permissions:
@@ -45,7 +45,6 @@ jobs:
 
     - name: npm install, build
       run: |
-        cmd cd app
         npm install
         npm run build --if-present
       
