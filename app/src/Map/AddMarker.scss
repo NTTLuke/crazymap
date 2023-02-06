@@ -1,0 +1,29 @@
+.setLocation {
+  font-weight: 800;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.discordNameInput {
+  border-style: none none solid none;
+  outline: none;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  background-color: white;
+  border-radius: 6px;
+  border-color: aliceblue;
+  width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+
+.updating{
+  opacity: 0.6;
+}

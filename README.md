@@ -1,8 +1,8 @@
-# CrazyFuryMaps Smart Contract
 
-CF Maps is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
+![alt text](./app/DRAFT/Logo.jpg)
+# Crazy Map Smart Contract
 
-It can be adapted for other NFT smart contract with few changes.
+Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
 
 ## Dependency libraries
 
@@ -13,57 +13,74 @@ It can be adapted for other NFT smart contract with few changes.
 
 
 ## User Stories 
-Every user story managed by the smart contract is covered by related tests. 
+Every user story managed by the smart contract is covered by related tests. See [crazymap.js](/test/crazymap.js)
 
-See [cf_tests.js](/test/cf_tests.js)
-
-run tests command
-
+For running tests, use this command:
 ```
-npx hardhat test --network hardhat .\test\cf_tests.js
+npx hardhat test .\test\crazymap.js
 ```
 
-> Caveat : Mock/Fake library runs on hardhat network only.
+> **Caveat** : Mock/Fake library used works on hardhat network only.
 
 
-## Scripts
-
-[cf-deploy-localhost](cf-deploy-localhost.js) to deploy smart contract on localhost network using hardhat.
-The script also runs smart contract commands for saving location for testing purpose
+## Run the webapp locally
 
 ```
-npx hardhat run .\scripts\cf-deploy-localhost.js --network localhost
+cd app 
+npm restore
+npm start
 ```
 
-[cf-deploy-testnet](cf-deploy-testnet.js) to deploy smart contract on Goerli testnet using hardhat
+### **First Use**
 
-```
-npx hardhat run .\scripts\cf-deploy-testnet.js --network goerli
-```
+On first use, UI will show you this message 
 
-[cf-deploy-mainnet](cf-deploy-mainnet.js) to deploy smart contract on ethereum mainnet with Alchemy
+> Hey Bro, only CrazyFury members can use this service. Buy CrazyFury NFT to get access.
 
-```
-npx hardhat run .\scripts\cf-deploy-mainnet.js --network mainnet
-```
+The reason is that Goerli doesn't have a  **REAL Crazy Fury Smart Contract** deployed, so we have to simulate the NFT ownership.
+
+For doing that : 
+- Open the script 
+
+    ``` scripts/demo/mint-fake-crazyfury-nft.js ```
+
+- Set your wallet address 
+
+    ``` const myAddress = "SET YOUR ADDRESS BEFORE RUN"; ```
+
+- Run the script :  
+
+    ```npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js  --network goerli ```
+
+### **Add your home base**
+A **Crazy Map member** is someone who have added his location and only **Crazy Map members** can see others members' locations on the map.
+
+Let's add your location to see others members:
+
+- double click on map where you are located now :)
+- set your discord name.
+- click Save.
+
+### **Update your home base**
+Let's say you are a digital nomad and you change your home base frequently.
+
+- double click on map where you are located now :)
+- click Update.
+
 
 ## Caveats
 
-CrazyFuryMaps smart contract has a dependency with CrazyFury ERC721 smart contract to check if the user ows the NFT (balanceOf).
+Crazy Map smart contract has a dependency with Crazy Fury ERC721 smart contract, to check if the user ows the NFT (balanceOf).
 
-For testing purpose a fake ERC721 called [MyFakeCrazyFury.sol](/contracts/MyFakeCrazyFury.sol) has been created in order to simulate the mainnet behaviour.
-
+For testing purpose a fake ERC721 called [MyFakeCrazyFuryNFT.sol](/contracts/MyFakeCrazyFuryNFT.sol) has been created in order to simulate the mainnet behaviour.
 
 ## Goerli smart contract references
-```
-Contract fake deployed to: 0x78D7Da811207aF2c1B712261cB12DCD7d8d51350
-Contract deployed to: 0xFDec63a5339E0A9763D692c4EBF09B4Ce25dF441
 
 ```
- - deploy new SC
- - update UI (ABI-Address)
+Crazy Fury fake contract: 
+0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4
 
+Crazy Map proxy contract:
+0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758
+```
 
-https://medium.com/robhitchens/solidity-crud-part-2-ed8d8b4f74ec
-https://betterprogramming.pub/learn-solidity-variables-part-3-3b02ca71cf06
-https://coinsbench.com/how-to-code-solidity-smart-contract-crud-functions-the-right-way-bf4c33975fe0
