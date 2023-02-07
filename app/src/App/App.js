@@ -7,7 +7,8 @@ import Geohash from "latlon-geohash";
 import MapView from "../Map/Map";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
-import LogoTitle from "../assets/CM Logo.jpg";
+import LogoTitle from "../assets/Logo.jpg";
+import MadeFooter from "../assets/made footer.jpg";
 //import LogoMap from "../assets/image 1logo.svg";
 
 
@@ -309,9 +310,11 @@ export default function App() {
         </div>
       )}
       <div className="footer">
-        Made with code and love by{" "}
-        <a href="https://github.com/domenico88">Dome</a> and{" "}
+      <img src={MadeFooter} alt="footer"  style={{width:282}} />
+       <div className="footerNames"> <a href="https://github.com/domenico88">Dome</a> and{" "}
         <a href="https://github.com/NTTLuke">NTTLuke</a>
+        </div>
+        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee">transaction fee: 0.0012 eth</a>
       </div>
     </div>
   );
