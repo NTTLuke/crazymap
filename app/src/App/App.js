@@ -294,10 +294,10 @@ export default function App() {
       )}
       <div className="footer">
       <img src={MadeFooter} alt="footer"  style={{width:282}} />
-       <div className="footerNames"> <a href="https://github.com/domenico88">Dome</a> and{" "}
-        <a href="https://github.com/NTTLuke">NTTLuke</a>
+       <div className="footerNames"> <a href="https://github.com/domenico88" target="_blank">Dome</a> and{" "}
+        <a href="https://github.com/NTTLuke" target="_blank">NTTLuke</a>
         </div>
-        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee">cm fee: 0.0012 eth</a>
+        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee" target="_blank">cm fee: 0.0012 eth</a>
       </div>
     </div>
   );
