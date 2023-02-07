@@ -81,7 +81,7 @@ export default function App() {
         const waveTxn = await crazyFuryMaps.setLocation(
           discordName,
           Geohash.encode(marker.lat, marker.lng),
-          { value: ethers.utils.parseEther("0.0011") }
+          { value: ethers.utils.parseEther("0.0012") }
         );
         setUpdatingLocation(true);
         await waveTxn.wait();
@@ -202,23 +202,6 @@ export default function App() {
           signer
         );
         console.log("account", account);
-        
-        //luke new method for mint FakeC
-        // console.log("contractFakeAddr", cfFakeAddress);
-        // let totalSupply = await crazyFuryContractFake.totalSupply();
-        // console.log(totalSupply);
-        // let tokenId = parseInt(totalSupply) + 1;
-
-        // const waveTxn = await crazyFuryContractFake.mint(account.address , tokenId);
-        // await waveTxn.wait(); 
-
-        //old code 
-        // const waveTxn = await crazyFuryContractFake.setUserAddr(account, {
-        //   gasLimit: 300000,
-        // });
-
-
-        // console.log("Added address for simulating CF ownership ", account);
       } else {
         console.log("Ethereum object doesn't exist!");
       }
@@ -314,7 +297,7 @@ export default function App() {
        <div className="footerNames"> <a href="https://github.com/domenico88">Dome</a> and{" "}
         <a href="https://github.com/NTTLuke">NTTLuke</a>
         </div>
-        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee">transaction fee: 0.0012 eth</a>
+        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee">cm fee: 0.0012 eth</a>
       </div>
     </div>
   );
