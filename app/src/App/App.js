@@ -270,7 +270,19 @@ export default function App() {
           <FontAwesomeIcon icon={faWarning} />
           &nbsp;{noNFTError} 
           <br/>
-          <a target="_blank" href="https://opensea.io/collection/montylab">Here</a>
+
+          {/* for goerli */}
+          <div className="plainText">
+            ** CALL TO ACTION FOR GOERLI NETWORK ** 
+            <br/>
+            <br/>
+            For Goerli you have to "simulate" the ownership of CrazyFury NFT for using CrazyMap 
+            <ul>
+              <li>open "Demo/mint-fake-crazyfury-nft.js" and follow the instructions</li>
+            </ul>
+          </div>
+          {/* for mainnet */}
+          {/* <a target="_blank" href="https://opensea.io/collection/montylab">Here</a> */}
         </div>
       )}
 
@@ -292,6 +304,7 @@ export default function App() {
           ></MapView>
         </div>
       )}
+      
       <div className="footer">
       <img src={MadeFooter} alt="footer"  style={{width:282}} />
        <div className="footerNames"> <a href="https://github.com/domenico88" target="_blank">Dome</a> and{" "}
