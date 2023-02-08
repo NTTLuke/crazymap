@@ -2,13 +2,14 @@ const hre = require("hardhat");
 const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
 
+//Mint FAKE Crazy Fury NFT on Goerli for your account in order to start playing with CRAZY MAP :)
 
-
-//Mint FAKE Crazy Fury NFT on Goerli for one of your accounts 
-//in order to start playing with CRAZY MAP :)
-
-//run
-//npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js --network goerli
+//INSTRUCTIONS
+//--------------------------------------
+//1.Set your wallet address 
+//2.Run the command below:
+//"npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js --network goerli"
+//--------------------------------------
 
 async function main() {
   
@@ -45,4 +46,4 @@ main()
   });
 
 
-  //npx hardhat verify --network goerli  0x3382FB362c00743D616e5D9D1D04DAdE5953BCa3
+//npx hardhat verify --network goerli  0x3382FB362c00743D616e5D9D1D04DAdE5953BCa3
