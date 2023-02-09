@@ -6,6 +6,11 @@ const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
 //INSTRUCTIONS
 //--------------------------------------
+// ADD .ENV FILE IN THE ROOT PROJECT WITH THE FOLLOWING VARIABLES
+//--------------------------------------
+//ALCHEMY_GOERLI_URL= YOUR ALCHEMY GOERLI URL
+//GOERLI_PRIVATE_KEY= YOUR GOERLI PRIVATE KEY
+//THEN 
 //1.Set your wallet address 
 //2.Run the command below:
 //"npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js --network goerli"
