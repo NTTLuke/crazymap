@@ -4,7 +4,7 @@
 
 Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
 
-## Dependency libraries
+## ✨ Dependency libraries
 
 - defi-wonderland/smock for mocking and faking 
 - ngeohash for encode/decode lat and lon 
@@ -12,7 +12,7 @@ Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT comm
     - Under [hardhat.config.js](hardhat.config.js) remove the comment `//require("hardhat-gas-reporter"):`
 
 
-## User Stories 
+## 📖 User Stories 
 Every user story managed by the smart contract is covered by related tests. See [crazymap.js](/test/crazymap.js)
 
 For running tests, use this command:
@@ -23,7 +23,7 @@ npx hardhat test .\test\crazymap.js
 > **Caveat** : Mock/Fake library used works on hardhat network only.
 
 
-## Run the webapp locally
+## 🤖 Run the webapp locally
 
 ```
 cd app 
@@ -31,7 +31,7 @@ npm restore
 npm start
 ```
 
-### **First Use**
+### 🧑‍🚀 **First Landing** 
 
 On first use, UI will show you this message 
 
@@ -40,19 +40,28 @@ On first use, UI will show you this message
 The reason is that Goerli doesn't have a  **REAL Crazy Fury Smart Contract** deployed, so we have to simulate the NFT ownership.
 
 For doing that : 
-- Open the script 
+
+1. **Create ```.env``` file in the project root and set environment variables as below**
+
+    ``` 
+    ALCHEMY_GOERLI_URL=YOUR_ALCHEMY_APP_URL
+    GOERLI_PRIVATE_KEY=YOUR ACCOUNT_PRIVATE_KEY 
+    ```
+    > Create your app on [Alchemy](http://www.alchemy.com) if you don't already have one.
+
+2. **Open the script**
 
     ``` scripts/demo/mint-fake-crazyfury-nft.js ```
 
-- Set your wallet address 
+3. **Set your wallet address** 
 
     ``` const myAddress = "SET YOUR ADDRESS BEFORE RUN"; ```
 
-- Run the script :  
+4. **Run the script:**  
 
     ```npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js  --network goerli ```
 
-### **Add your home base**
+### 🏠 **Add your home base**
 A **Crazy Map member** is someone who have added his location and only **Crazy Map members** can see others members' locations on the map.
 
 Let's add your location to see others members:
@@ -61,20 +70,20 @@ Let's add your location to see others members:
 - set your discord name.
 - click Save.
 
-### **Update your home base**
+### 🚎 **Update your home base**
 Let's say you are a digital nomad and you change your home base frequently.
 
 - double click on map where you are located now :)
 - click Update.
 
 
-## Caveats
+## 🛎️ Caveats
 
 Crazy Map smart contract has a dependency with Crazy Fury ERC721 smart contract, to check if the user ows the NFT (balanceOf).
 
 For testing purpose a fake ERC721 called [MyFakeCrazyFuryNFT.sol](/contracts/MyFakeCrazyFuryNFT.sol) has been created in order to simulate the mainnet behaviour.
 
-## Goerli smart contract references
+## 🖇️ Goerli smart contract references
 
 ```
 Crazy Fury fake contract: 
