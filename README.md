@@ -6,7 +6,7 @@ We are working to update dns on a decentralized hosting.
 
 In case of issues, use the following temporary address
 
-<a href="https://crazymapwebui.azurewebsites.net" target="_blank">Temporary Link</a>
+<a href="https://black-voice-4172.on.fleek.co/" target="_blank">Temporary Link</a>
 
 # 
 
