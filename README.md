@@ -1,5 +1,15 @@
 
 ![alt text](./app/DRAFT/Logo.jpg)
+
+# ⚠️ WARNING : MIGRATION IN PROGRESS
+We are working to update dns on a decentralized hosting.
+
+In case of issues, use the following temporary address
+
+<a href="https://crazymapwebui.azurewebsites.net" target="_blank">Temporary Link</a>
+
+# 
+
 # Crazy Map Smart Contract
 
 Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
