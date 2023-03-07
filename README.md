@@ -103,3 +103,17 @@ Crazy Map proxy contract:
 0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758
 ```
 
+
+## 🖇️ Sepolia smart contract references
+
+```
+Crazy Fury fake contract: 
+0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66
+
+Crazy Map proxy contract:
+0xe85D9D9c4A470F43b41379Df30Dca1Df4e19fB6e
+
+Implementation 
+0x52D386E89E62Bf9F67126b94D730583f46D99466
+```
+
