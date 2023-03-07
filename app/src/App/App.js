@@ -25,10 +25,10 @@ export default function App() {
   const [noNFTError, setNoNFTError] = useState("");
   const [noLocationError, setNoLocationError] = useState("");
   const [updatingLocation, setUpdatingLocation] = useState(false);
-  const contractAddress = "0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758";
+  const contractAddress = "0xe85D9D9c4A470F43b41379Df30Dca1Df4e19fB6e";
   const contractABI = abi.abi;
 
-  const cfFakeAddress = "0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4";
+  const cfFakeAddress = "0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66";
   const cfFakeABI = abiFake.abi;
 
   const checkIfWalletIsConnected = async () => {

@@ -52,10 +52,15 @@ describe("CrazyMap Upgrade", function () {
     );
 
     expect(implementationAddressV1).to.not.equal(implementationAddressV2);
+    expect(upgraded.address).to.equal(proxy.address);
 
     //check storage
-    size = await proxy.getSize();
+    size = await upgraded.getSize();
     expect(size).to.equal(2);
+
+    const result = await upgraded.callV2();
+    expect(result).to.equal(1);
+
 
   });
 

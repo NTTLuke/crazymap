@@ -5,7 +5,6 @@ const main = async () => {
     //signers
     const [owner, user1] = await ethers.getSigners();
 
-
     //Deploy fake contract for testing
     const cfContractFactoryFake = await hre.ethers.getContractFactory('MyFakeCrazyFuryNFT');
     const cfContractFake = await cfContractFactoryFake.deploy();

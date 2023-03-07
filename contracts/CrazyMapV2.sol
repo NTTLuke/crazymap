@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
+
+interface IERC721 {
+    function balanceOf(address owner) external view returns (uint256 balance);
+}
 
 contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
     //CF Contract Address
     address private cfContractAdr;
     //at least one coffee :)
-    uint256 public minCrazyMapFee;
+    uint256 constant public minCrazyMapFee = 0.0012 ether;
 
     struct CFLocation {
         string discordName;
@@ -27,7 +29,6 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
 
     //mapping address with CrazyFuryPosition
     mapping(address => CFLocation) private cfLocationsMap;
-
     //indicates if address has added a location
     mapping(address => bool) private inserted;
 
@@ -37,16 +38,13 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
     function initialize(address _cfContractAdr) public initializer {
         //init owner for OwnableUpgradeable
         __Ownable_init();
-
         //pausable init to false for PausableUpgradeable
         __Pausable_init();
-
         //crazy fury contract address
         cfContractAdr = _cfContractAdr;
-        minCrazyMapFee = 0.0012 ether;
     }
 
-    function _setLocation(string memory discordName, string memory geoHash)
+    function _setLocation(string calldata discordName, string calldata geoHash)
         private
         whenNotPaused
     {
@@ -91,7 +89,7 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
         require(inserted[cfAddress], "Crazy Fury Maps member doesn't exist");
     }
 
-    function setLocation(string memory discordName, string memory geoHash)
+    function setLocation(string calldata discordName, string calldata geoHash)
         external
         payable
         whenNotPaused
@@ -108,7 +106,7 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
         require(sent);
     }
 
-    function editLocation(string memory discordName, string memory geoHash)
+    function editLocation(string calldata discordName, string calldata geoHash)
         external
         whenNotPaused
         onlyCrazyFuryOwnerCanInvoke
@@ -218,7 +216,7 @@ contract CrazyMapV2 is OwnableUpgradeable, PausableUpgradeable {
         _;
     }
 
-    function callV2() public pure returns (int256) {
+     function callV2() external pure returns (int256) {
         return 1;
     }
 }

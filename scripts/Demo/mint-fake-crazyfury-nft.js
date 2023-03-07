@@ -2,29 +2,29 @@ const hre = require("hardhat");
 const geohash = require('ngeohash');  //https://npm.io/package/ngeohash
 
 
-//Mint FAKE Crazy Fury NFT on Goerli for your account in order to start playing with CRAZY MAP :)
+//Mint FAKE Crazy Fury NFT on SEPOLIA for your account in order to start playing with CRAZY MAP :)
 
 //INSTRUCTIONS
 //--------------------------------------
 // ADD .ENV FILE IN THE ROOT PROJECT WITH THE FOLLOWING VARIABLES
 //--------------------------------------
-//ALCHEMY_GOERLI_URL= YOUR ALCHEMY GOERLI URL
-//GOERLI_PRIVATE_KEY= YOUR GOERLI PRIVATE KEY
+//ALCHEMY_SEPOLIA_URL= YOUR ALCHEMY SEPOLIA URL
+//SEPOLIA_PRIVATE_KEY= YOUR SEPOLIA PRIVATE KEY
 //THEN 
 //1.Set your wallet address 
 //2.Run the command below:
-//"npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js --network goerli"
+//"npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js --network sepolia"
 //--------------------------------------
 
 async function main() {
   
-  //GOERLI ADDRESSES
-  const CF_FAKE_ADDR = "0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4";
+  //CRAZY FURY FAKE ADDRESSES, now on sepolia
+  const CF_FAKE_ADDR = "0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66";
   
   //----------------------------------
   //REPLACE THIS BEFORE RUN
   //----------------------------------
-  const myAddress = "SET YOUR ADDRESS BEFORE RUN";
+  const myAddress = "0xcb3663012AD17640F56441CAdEDc00D0f7a0D328";
 
 
   //----------------------------------

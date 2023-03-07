@@ -11,9 +11,9 @@ const CF_CONTRACT_ADDR = "0x04047358179df7FE24E578219336212346dF1C07";
 const main = async () => {
 
     if (await DeploymentPriceIsCompliant()) {
-        console.log("Deployment price is OK, starting deployment...");
-        await DeployOnMainnet();
-        console.log("Deployment completed!");
+        // console.log("Deployment price is OK, starting deployment...");
+        // await DeployOnMainnet();
+        // console.log("Deployment completed!");
     }
 };
 
@@ -33,9 +33,11 @@ const DeploymentPriceIsCompliant = async () => {
 
     const deploymentPrice = gasPrice.mul(estimatedGas);
     const deployerBalanceETH = await CrazyMap.signer.getBalance();
+    const deployerBalanceUSD = ethers.utils.formatEther(deployerBalanceETH) * ethPrice;
     const priceUsd = ethers.utils.formatEther(deploymentPrice) * ethPrice;
     console.log("##################");
     console.log(`Deployer balance ETH:  ${ethers.utils.formatEther(deployerBalanceETH)}`);
+    console.log(`Deployer balance USD:  ${deployerBalanceUSD.toFixed(2)}`);
     console.log("-----------------------------");
     console.log(`Gas Price: ${ethers.utils.formatUnits(gasPrice, "gwei")}`);
     console.log(`Estimated gas: ${estimatedGas}`);
@@ -45,7 +47,7 @@ const DeploymentPriceIsCompliant = async () => {
     console.log("##################");
 
     if (parseFloat(priceUsd) > MAX_PRICE) {
-        console.warn("! WARNING: Deployment price is high! ");
+        console.warn("WARNING: Deployment price is high!");
         return false;
     }
 

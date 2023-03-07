@@ -20,7 +20,11 @@ module.exports = {
       url: process.env.ALCHEMY_MAINNET_URL,
       accounts: [process.env.MAINNET_PRIVATE_KEY],
       gasPrice: 200
-    }
+    },
+    sepolia: {
+      url: process.env.ALCHEMY_SEPOLIA_URL,
+      accounts: [process.env.SEPOLIA_PRIVATE_KEY]
+    },
 
   },
   etherscan: {
