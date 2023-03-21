@@ -104,6 +104,19 @@ Crazy Map proxy contract:
 ```
 
 
+## 🖇️ Mainnet smart contract references
+
+```
+Crazy Fury contract: 
+0x04047358179df7FE24E578219336212346dF1C07
+
+Crazy Map proxy contract:
+0x6ADa73e6192a40922E926595539D768C983B836A
+
+Implementation 
+0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66
+```
+
 ## 🖇️ Sepolia smart contract references
 
 ```
@@ -116,4 +129,3 @@ Crazy Map proxy contract:
 Implementation 
 0x52D386E89E62Bf9F67126b94D730583f46D99466
 ```
-

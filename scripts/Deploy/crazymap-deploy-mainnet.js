@@ -4,16 +4,16 @@ require("dotenv").config();
 // etherscan api key
 const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY;
 //max price in USD for deployment
-const MAX_PRICE = 30;
+const MAX_PRICE = 61;
 //crazy fury contract address on mainnet
 const CF_CONTRACT_ADDR = "0x04047358179df7FE24E578219336212346dF1C07";
 
 const main = async () => {
 
     if (await DeploymentPriceIsCompliant()) {
-        // console.log("Deployment price is OK, starting deployment...");
-        // await DeployOnMainnet();
-        // console.log("Deployment completed!");
+        console.log("Deployment price is OK, starting deployment...");
+        await DeployOnNetwork();
+        console.log("Deployment completed!");
     }
 };
 
@@ -62,11 +62,11 @@ const DeploymentPriceIsCompliant = async () => {
     // }
 }
 
-const DeployOnMainnet = async () => {
+const DeployOnNetwork = async () => {
 
 
     const CrazyMap = await ethers.getContractFactory('CrazyMap');
-    const proxy = await upgrades.deployProxy(CrazyMap, [CF_CONTRACT_ADDR], { gasPrice: 200 });
+    const proxy = await upgrades.deployProxy(CrazyMap, [CF_CONTRACT_ADDR]);
     await proxy.deployed();
 
     console.log('Proxy deployed at ' + proxy.address);

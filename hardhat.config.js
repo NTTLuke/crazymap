@@ -18,8 +18,7 @@ module.exports = {
     },
     mainnet: {
       url: process.env.ALCHEMY_MAINNET_URL,
-      accounts: [process.env.MAINNET_PRIVATE_KEY],
-      gasPrice: 200
+      accounts: [process.env.MAINNET_PRIVATE_KEY]
     },
     sepolia: {
       url: process.env.ALCHEMY_SEPOLIA_URL,

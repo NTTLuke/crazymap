@@ -24,7 +24,7 @@ async function main() {
   //----------------------------------
   //REPLACE THIS BEFORE RUN
   //----------------------------------
-  const myAddress = "0xcb3663012AD17640F56441CAdEDc00D0f7a0D328";
+  const myAddress = "0x69FCf3F6B6722a6513cDfF45CC3996587572f7Db";
 
 
   //----------------------------------

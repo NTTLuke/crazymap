@@ -25,10 +25,10 @@ export default function App() {
   const [noNFTError, setNoNFTError] = useState("");
   const [noLocationError, setNoLocationError] = useState("");
   const [updatingLocation, setUpdatingLocation] = useState(false);
-  const contractAddress = "0xe85D9D9c4A470F43b41379Df30Dca1Df4e19fB6e";
+  const contractAddress = "0x6ADa73e6192a40922E926595539D768C983B836A";
   const contractABI = abi.abi;
 
-  const cfFakeAddress = "0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66";
+  const crazyFuryAddress = "0x04047358179df7FE24E578219336212346dF1C07";
   const cfFakeABI = abiFake.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -197,7 +197,7 @@ export default function App() {
         const signer = provider.getSigner();
 
         const crazyFuryContractFake = new ethers.Contract(
-          cfFakeAddress,
+          crazyFuryAddress,
           cfFakeABI,
           signer
         );
@@ -272,7 +272,7 @@ export default function App() {
           <br/>
 
           {/* for goerli */}
-          <div className="plainText">
+          {/* <div className="plainText">
             ** CALL TO ACTION FOR GOERLI NETWORK ** 
             <br/>
             <br/>
@@ -280,9 +280,9 @@ export default function App() {
             <ul>
               <li>open "Demo/mint-fake-crazyfury-nft.js" and follow the instructions</li>
             </ul>
-          </div>
+          </div> */}
           {/* for mainnet */}
-          {/* <a target="_blank" href="https://opensea.io/collection/montylab">Here</a> */}
+          <a target="_blank" href="https://opensea.io/collection/montylab">Here</a>
         </div>
       )}
 
@@ -310,7 +310,7 @@ export default function App() {
        <div className="footerNames"> <a href="https://github.com/domenico88" target="_blank">Dome</a> and{" "}
         <a href="https://github.com/NTTLuke" target="_blank">NTTLuke</a>
         </div>
-        <a href="https://goerli.etherscan.io/address/0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758#readProxyContract" className="transactionfee" target="_blank">cm fee: 0.0012 eth</a>
+        <a href="https://etherscan.io/address/0x6ada73e6192a40922e926595539d768c983b836a#code" className="transactionfee" target="_blank">cm fee: 0.0012 eth</a>
       </div>
     </div>
   );
