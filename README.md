@@ -14,6 +14,20 @@ In case of issues, use the following temporary address
 
 Crazy Map is a smart contract for storing geolocation data of CrazyFury NFT community members into the ethereum blockchain.
 
+
+## 🖇️ Mainnet smart contract references
+
+```
+Official Crazy Fury
+0x04047358179df7FE24E578219336212346dF1C07
+
+Crazy Map proxy contract
+0x6ADa73e6192a40922E926595539D768C983B836A
+
+Implementation 
+0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66
+```
+
 ## ✨ Dependency libraries
 
 - defi-wonderland/smock for mocking and faking 
@@ -32,9 +46,23 @@ npx hardhat test .\test\crazymap.js
 
 > **Caveat** : Mock/Fake library used works on hardhat network only.
 
+## 🤖 Run the webapp locally using Test network (Sepolia)
 
-## 🤖 Run the webapp locally
+> For the current version, smart contract addresses are set into App.js page. Check variables before running the frontend, in order to user the right smart contract addresses based on the chain (mainnet|sepolia).
+```
+//from app.js
 
+// SET THE CRAZY MAP ADDRESS U WANT TO TEST
+// mainnet or sepolia
+const contractAddress = "";
+
+// SET THE CRAZY FURY ADDRESS U WANT TO TEST 
+// real (mainnet) or the testing one (sepolia)
+const crazyFuryAddress = "";
+```
+
+
+Then run these commands
 ```
 cd app 
 npm restore
@@ -54,8 +82,8 @@ For doing that :
 1. **Create ```.env``` file in the project root and set environment variables as below**
 
     ``` 
-    ALCHEMY_GOERLI_URL=YOUR_ALCHEMY_APP_URL
-    GOERLI_PRIVATE_KEY=YOUR ACCOUNT_PRIVATE_KEY 
+    ALCHEMY_SEPOLIA_URL=YOUR_ALCHEMY_APP_URL
+    SEPOLIA_PRIVATE_KEY=YOUR ACCOUNT_PRIVATE_KEY 
     ```
     > Create your app on [Alchemy](http://www.alchemy.com) if you don't already have one.
 
@@ -69,7 +97,7 @@ For doing that :
 
 4. **Run the script:**  
 
-    ```npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js  --network goerli ```
+    ```npx hardhat run .\scripts\Demo\mint-fake-crazyfury-nft.js  --network sepolia ```
 
 ### 🏠 **Add your home base**
 A **Crazy Map member** is someone who have added his location and only **Crazy Map members** can see others members' locations on the map.
@@ -93,29 +121,6 @@ Crazy Map smart contract has a dependency with Crazy Fury ERC721 smart contract,
 
 For testing purpose a fake ERC721 called [MyFakeCrazyFuryNFT.sol](/contracts/MyFakeCrazyFuryNFT.sol) has been created in order to simulate the mainnet behaviour.
 
-## 🖇️ Goerli smart contract references
-
-```
-Crazy Fury fake contract: 
-0xC2Dddd7241a7C258c25a594007B6BB0F03207DF4
-
-Crazy Map proxy contract:
-0x9DdA4Fff341778C5E063Bed36FE15fBA28ada758
-```
-
-
-## 🖇️ Mainnet smart contract references
-
-```
-Crazy Fury contract: 
-0x04047358179df7FE24E578219336212346dF1C07
-
-Crazy Map proxy contract:
-0x6ADa73e6192a40922E926595539D768C983B836A
-
-Implementation 
-0x49621bE3d006f1AE3C2B27482a9216B11bbDCb66
-```
 
 ## 🖇️ Sepolia smart contract references
 

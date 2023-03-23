@@ -9,9 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import LogoTitle from "../assets/Logo.jpg";
 import MadeFooter from "../assets/made footer.jpg";
-//import LogoMap from "../assets/image 1logo.svg";
-
-
 
 export default function App() {
   /*
@@ -144,7 +141,7 @@ export default function App() {
   const getLocationByAddress = async () => {
     try {
       const { ethereum } = window;
-
+      
       if (ethereum) {
         const accounts = await ethereum.request({ method: "eth_accounts" });
         const account = accounts[0];
