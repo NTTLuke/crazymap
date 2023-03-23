@@ -12,10 +12,6 @@ module.exports = {
     }
   },
   networks: {
-    goerli: {
-      url: process.env.ALCHEMY_GOERLI_URL,
-      accounts: [process.env.GOERLI_PRIVATE_KEY]
-    },
     mainnet: {
       url: process.env.ALCHEMY_MAINNET_URL,
       accounts: [process.env.MAINNET_PRIVATE_KEY]
